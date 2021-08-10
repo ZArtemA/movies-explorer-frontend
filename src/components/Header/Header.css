@@ -1,0 +1,33 @@
+.header{
+    width: 100%;
+    padding: 0 0.55%;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.header__menu{
+    display: flex;
+    gap: 20px;
+}
+
+.header__link{
+    font-family: Inter;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: right;
+}
+
+.header__link_account{
+    margin-left: 30px;
+    line-height: 16px;
+}
+
+.menu__account-icon{
+    float: right;
+    margin-left: 17px;
+}
