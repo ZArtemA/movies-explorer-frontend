@@ -1,6 +1,6 @@
   
 import React from "react";
-import logo from "../../images/logo.svg";
+import logo from "../../logo.svg";
 import account_icon from "../../images/account-img.svg";
 import { Link } from "react-router-dom";
 import './Header.css';
