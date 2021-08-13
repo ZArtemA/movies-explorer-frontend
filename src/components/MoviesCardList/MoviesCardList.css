@@ -1,0 +1,14 @@
+.cards{
+  width: 100%;
+  margin: 0 0 16px;
+}
+
+.cards__gallery{
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    gap: 38px 1.56%;
+    margin: 70px 5.46% 10px;
+    width: auto;
+  }

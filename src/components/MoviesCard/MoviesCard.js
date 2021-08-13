@@ -1,4 +1,5 @@
 import React from 'react';
+import './MoviesCard.css';
 
 function MoviesCard({ card, onCardClick, onCardLike, onCardDelete }) {
 
@@ -7,22 +8,20 @@ function MoviesCard({ card, onCardClick, onCardLike, onCardDelete }) {
     const cardDeleteButtonClassName = `card__btn-delete buttons ${isOwn ? '' : 'card__btn-delete_hidden'}`;
 
     const isLiked = card.likes.some(i => i === currentUser.id);
-    const cardLikeButtonClassName = `card__btn-like buttons ${isLiked ? `card__btn-like_active` : ''}`;
+    const movieButtonClassName = `movie-card__btn-like ${isLiked ? `movie-card__btn-like_active` : ''}`;
 
 
     return (
-        <li className="card__title-image">
-            <div className="card__image" style={{ backgroundImage: `url(${card.link})` }} onClick={handleClick}></div>
-            <button className={cardDeleteButtonClassName} type="button" aria-label="Удалить" onClick={handleDeleteClick}>
-            </button>
-            <div className="card__place">
-                <h2 className="card__title">{card.name}</h2>
-                <div className="card__likes">
-                    <button className={cardLikeButtonClassName} type="button" aria-label="Лайк" onClick={handleLikeClick}>
-                    </button>
-                    <p className="card__like-numbers">{card.likes.length}</p>
-                </div>
+        <li className="movie-card">
+            <div className="movie-card__ratio-inner">
+            <div className="movie-card__image" style={{ backgroundImage: `url(${card.link})` }} onClick={handleClick}></div>
             </div>
+            <div className="movie-card__name-row">
+                <h2 className="card__title">{card.name}</h2>
+                    <button className={movieButtonClassName} type="button" aria-label="Лайк" onClick={handleLikeClick}>
+                    </button>
+            </div>
+            <p className="movie-card__duration">{card.duration}</p>
         </li>
     )
 }

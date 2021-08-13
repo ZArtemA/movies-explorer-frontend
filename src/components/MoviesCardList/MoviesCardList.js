@@ -1,6 +1,7 @@
 import React from 'react';
+import './MoviesCardList.css';
 
-function MoviesCardList({ card, onCardClick, onCardLike, onCardDelete }) {
+function MoviesCardList({ card }) {
 return (
 <section className="cards">
 <ul className="cards__gallery">
@@ -8,9 +9,6 @@ return (
         return (<
             Card key={cardObj._id}
             card={cardObj}
-            onCardClick={props.onCardClick}
-            onCardDelete={props.onCardDelete}
-            onCardLike={props.onCardLike}
         />
         );
     }
