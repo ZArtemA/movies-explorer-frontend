@@ -1,33 +1,33 @@
 import React from 'react';
-import Header from './Header/Header';
-import Main from './Main/Main';
-import Movies from './Movies/Movies';
-import SavedMovies from './SavedMovies/SavedMovies';
-import Profile from './Profile/Profile';
-import Register from './Register/Register';
-import Login from './Login/Login';
-import PageNotFound from './PageNotFound/PageNotFound';
-import Footer from './Footer/Footer';
+import { Route, Switch } from 'react-router-dom';
+import Header from '../Header/Header';
+import Main from '../Main/Main';
+import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
+import Profile from '../Profile/Profile';
+import Register from '../Register/Register';
+import Login from '../Login/Login';
+import PageNotFound from '../PageNotFound/PageNotFound';
+import Footer from '../Footer/Footer';
 
 function App() {
 
   
     return (
-      <CurrentUserContext.Provider value={currentUser}>
         <>
         <div className="app">
             <Header />
             <Switch>
-              <Route path="/" loggedIn={loggedIn}>
+              <Route exact path="/">
                 <Main />
               </Route>
-              <Route path="/movies" loggedIn={loggedIn}>
+              <Route path="/movies">
                 <Movies />
               </Route>
-              <Route path="/saved-movies" loggedIn={loggedIn}>
+              <Route path="/saved-movies">
                 <SavedMovies />
               </Route>
-              <Route path="/profile" loggedIn={loggedIn}>
+              <Route path="/profile">
                 <Profile />
               </Route>
               <Route path="/signup">
@@ -36,14 +36,13 @@ function App() {
               <Route path="/signin">
                 <Login />
               </Route>
-              <Route path="/*">
+              <Route path="*">
                 <PageNotFound />
               </Route>
-            </Switch>
+              </Switch>
             <Footer />
         </div>
         </>
-      </CurrentUserContext.Provider>
     );
   }
   

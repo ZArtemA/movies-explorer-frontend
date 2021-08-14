@@ -1,13 +1,15 @@
 import React from 'react';
 import './MoviesCardList.css';
+import cards from '../../utils/data';
 
-function MoviesCardList({ card }) {
+function MoviesCardList() {
+
 return (
 <section className="cards">
 <ul className="cards__gallery">
-    {props.cards.map((cardObj) => {
+    {cards.map((cardObj) => {
         return (<
-            Card key={cardObj._id}
+            card key={cardObj._id}
             card={cardObj}
         />
         );
