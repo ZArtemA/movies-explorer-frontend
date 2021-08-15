@@ -13,10 +13,10 @@ function Header({userData, onSignOut}) {
             <img className="header__logo" src={logo} alt="Лого" />
             <nav className="header__menu">
                     <Link to="/movies" className="header__link link">Фильмы</Link>
-                    <Link to="/saved-movies" className="header__link link">Сохраненные фильмы</Link>
+                    <Link to="/saved-movies" className="header__link link">Сохранённые фильмы</Link>
                     <Link to="/profile" className="header__link header__link_account link">
                     Аккаунт
-                    <img src={account_icon} alt="иконка" className="header__link menu__account-icon" />
+                    <img src={account_icon} alt="иконка" className="header__link header__link_account-icon" />
                     </Link>
             </nav>
             </Route>

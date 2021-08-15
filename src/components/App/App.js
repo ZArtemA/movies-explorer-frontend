@@ -9,6 +9,7 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import Footer from '../Footer/Footer';
+import './App.css';
 
 function App() {
 

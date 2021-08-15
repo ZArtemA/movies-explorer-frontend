@@ -20,17 +20,18 @@ function SearchForm() {
         <img className="search-form__button-img" src={button} alt="Найти" />
         </button>
       </fieldset>
-      <fieldset className="search-form__box">
-      <label className="search-form__checkbox-text">Короткометражки
+      <fieldset className="search-form__checkbox">
+      <p className="search-form__checkbox-text">Короткометражки</p>
+      <label className="search-form__checkbox-btn" for="checkbox">
       <input
          onClick={handleCheckbox}
          type="checkbox"
-         className="search-form__checkbox_hide"
+         className="search-form__checkbox-toggle"
          name="checkbox"
          id="checkbox"
          defaultChecked={checkbox}
       />
-      <span className="search-form__checkbox_visible"></span>
+      <span className="search-form__pseudo-item"><span className="search-form__pseudo-item-knob"></span></span>
       </label> 
        </fieldset>
             </form>

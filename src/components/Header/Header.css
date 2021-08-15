@@ -1,33 +1,49 @@
 .header{
-    width: 100%;
-    padding: 0 0.55%;
+    padding: 0 5.469%;
     margin: 0;
+    height: 74px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 14px;
     line-height: 16px;
+    border: solid 1px red;
 }
 
 .header__menu{
     display: flex;
+    align-items: center;
     gap: 20px;
 }
 
 .header__link{
-    font-family: Inter;
+    font-family: 'Inter', sans-serif;;
+    font-style: normal;
+    font-weight: 400;
     font-size: 14px;
     line-height: 18px;
-    letter-spacing: 0em;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
     text-align: right;
+    text-decoration: none;
+    color: #000;
 }
 
 .header__link_account{
     margin-left: 30px;
     line-height: 16px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
 }
 
-.menu__account-icon{
+.header__link_account-icon{
     float: right;
     margin-left: 17px;
+    background-color: #F5F5F5;
+    border-radius: 4px;
+    padding: 8px 7.25px;
 }
