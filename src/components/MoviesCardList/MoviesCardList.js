@@ -16,6 +16,9 @@ return (
         ))}
 
 </ul>
+<div className="cards__more">
+      <button className="cards__more-btn">Еще</button>
+    </div>
 </section>
 )
 }
