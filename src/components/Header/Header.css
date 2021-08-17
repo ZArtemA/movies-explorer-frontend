@@ -17,8 +17,6 @@
 }
 
 .header__link{
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 18px;
@@ -46,4 +44,39 @@
     background-color: #F5F5F5;
     border-radius: 4px;
     padding: 8px 7.25px;
+}
+
+.header__menu-btn{
+    display: none;
+}
+
+@media screen and (max-width: 1110px) {
+
+    .header{
+        padding: 0 4.685%;
+    }
+
+    .header__menu-btn{
+        display: block;
+    }
+
+    .header__menu{
+        display: none;
+    }
+  
+}
+
+@media screen and (max-width: 940px) {
+
+    .header{
+        padding: 0 3.9%;
+    }
+
+}
+
+@media screen and (max-width: 520px) {
+
+    .header{
+        padding: 0 4.375%;
+    }
 }

@@ -8,11 +8,24 @@
   .cards__more-btn{
     width: 89%;
     height: 36px;
+    font-size: 12px;
+    line-height: 15px;
     background-color: #F9F9F9;
     padding: 0;
-    margin: 50px 0 96px;
+    margin: 50px auto 80px;
     border: none;
-    font-family: 'Inter';
-    font-style: normal;
     font-weight: 500;
   }
+
+  @media screen and (max-width: 940px) {
+    .cards__more-btn{
+      width: 92.18%;
+    }
+}
+
+@media screen and (max-width: 520px) {
+
+  .cards__more-btn{
+    width: 93.75%;
+  }
+}

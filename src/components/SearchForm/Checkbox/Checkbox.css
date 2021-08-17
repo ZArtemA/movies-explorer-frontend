@@ -9,8 +9,6 @@
 }
 
 .checkbox-text{
-    font-family: 'Inter';
-    font-style: normal;
     font-weight: 400;
     font-size: 13px;
     line-height: 18px;
@@ -68,4 +66,22 @@
 .checkbox-toggle:checked + .pseudo-item .pseudo-item-knob{
     right: 2px;
     background-color: #F5F5F5;
+}
+
+@media screen and (max-width: 1110px) {
+
+    .checkbox-btn{
+        margin-left: 12px;
+    }
+}
+
+@media screen and (max-width: 520px) {
+
+    .checkbox-text{
+        font-size: 11px;
+    }
+
+    .checkbox-btn{
+        margin-left: 13px;
+    }
 }

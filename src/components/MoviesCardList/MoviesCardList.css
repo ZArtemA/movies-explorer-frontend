@@ -10,6 +10,40 @@
     justify-items: center;
     gap: 38px 1.56%;
     margin: 70px 5.469% 10px;
-    width: auto;
-    list-style-type: none;
   }
+
+  @media screen and (max-width: 1110px) {
+
+    .cards{
+      margin-bottom: 0 0 8px;
+    }
+    .cards__gallery{
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 30px;
+      margin: 70px 4.685% 10px;
+    }
+  
+}
+
+@media screen and (max-width: 940px) {
+
+  .cards{
+    margin-bottom: 0;
+  }
+  .cards__gallery{
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin: 70px 3.9% 10px;
+  }
+
+}
+
+@media screen and (max-width: 520px) {
+
+  .cards__gallery{
+    grid-template-columns: 1fr;
+    gap: 34px 1.56%;
+    margin: 40px 3.125% 10px;
+  }
+
+}

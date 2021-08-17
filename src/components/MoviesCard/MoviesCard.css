@@ -26,11 +26,10 @@
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #E8E8E8;
-    padding-bottom: 17px;
+    height: 45px;
 }
 
 .card__title{
-    font-family: 'Inter';
     font-weight: 500;
     font-size: 13px;
     line-height: 16px;
@@ -51,9 +50,35 @@
 
 
 .movie-card__duration{
-    font-family: 'Inter';
     font-size: 11px;
     line-height: 13px;
     margin: 6px 0 0;
     color: #A0A0A0;
+}
+
+@media screen and (max-width: 940px) {
+
+    .movie-card__image{
+        padding-top: 56.05%;
+    }
+}
+
+@media screen and (max-width: 520px) {
+
+
+    .movie-card__image{
+        padding-top: 56%;
+    }
+
+    .card__title{
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 15px;
+        margin: 15px 0;
+    }
+
+    .movie-card__duration{
+        font-size: 10px;
+        line-height: 12px;
+    }
 }
