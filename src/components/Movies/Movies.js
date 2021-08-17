@@ -3,11 +3,11 @@ import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function Movies() {
+function Movies({ handleCheckbox, checkbox }) {
 return (
     <section className="movies">
       <div className="movies__container">
-        <SearchForm />
+        <SearchForm handleCheckbox={handleCheckbox} checkbox={checkbox} />
         <MoviesCardList />
       </div>
     </section>

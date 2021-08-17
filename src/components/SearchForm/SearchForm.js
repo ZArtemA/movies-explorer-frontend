@@ -1,15 +1,10 @@
   
 import React from 'react';
-import { useState } from 'react';
 import './SearchForm.css';
 import button from '../../images/find.svg';
+import Checkbox from './Checkbox/Checkbox';
 
-function SearchForm() {
-
-    const [checkbox, setCheckbox] = useState(true);
-    function handleCheckbox() {
-        setCheckbox(!checkbox);
-      }
+function SearchForm({ handleCheckbox, checkbox }) {
 
     return (
         <section className="search-form">
@@ -20,20 +15,7 @@ function SearchForm() {
         <img className="search-form__button-img" src={button} alt="Найти" />
         </button>
       </fieldset>
-      <fieldset className="search-form__checkbox">
-      <p className="search-form__checkbox-text">Короткометражки</p>
-      <label className="search-form__checkbox-btn" for="checkbox">
-      <input
-         onClick={handleCheckbox}
-         type="checkbox"
-         className="search-form__checkbox-toggle"
-         name="checkbox"
-         id="checkbox"
-         defaultChecked={checkbox}
-      />
-      <span className="search-form__pseudo-item"><span className="search-form__pseudo-item-knob"></span></span>
-      </label> 
-       </fieldset>
+       <Checkbox handleCheckbox={handleCheckbox} checkbox={checkbox} />
             </form>
         </section>
     );

@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -13,6 +13,12 @@ import './App.css';
 
 function App() {
 
+const [checkbox, setCheckbox] = useState(true);
+
+function handleCheckbox() {
+    setCheckbox(!checkbox);
+  }
+
   
     return (
         <>
@@ -23,7 +29,10 @@ function App() {
                 <Main />
               </Route>
               <Route path="/movies">
-                <Movies />
+                <Movies
+                handleCheckbox={handleCheckbox}
+                checkbox={checkbox}
+                 />
               </Route>
               <Route path="/saved-movies">
                 <SavedMovies />

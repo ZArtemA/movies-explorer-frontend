@@ -1,6 +1,7 @@
 import React from 'react';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import More from './More/More';
 import cards from '../../utils/data';
 
 function MoviesCardList() {
@@ -16,9 +17,7 @@ return (
         ))}
 
 </ul>
-<div className="cards__more">
-      <button className="cards__more-btn">Еще</button>
-    </div>
+    <More />
 </section>
 )
 }

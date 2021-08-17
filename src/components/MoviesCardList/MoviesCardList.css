@@ -9,21 +9,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-items: center;
     gap: 38px 1.56%;
-    margin: 70px 5.46% 10px;
+    margin: 70px 5.469% 10px;
     width: auto;
     list-style-type: none;
   }
-
-.cards__more{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.cards__more-btn{
-  width: 320px;
-  height: 36px;
-  background-color: #A0A0A0;
-  padding: 0;
-  margin: 0;
-}
