@@ -1,0 +1,131 @@
+.menu{
+    display: none;
+}
+
+
+@media screen and (max-width: 1110px) {
+
+    .menu{
+        position: absolute;
+        width:100%;
+        height: 100%;
+        z-index: 10;
+        top: 0;
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .menu_opened{
+        display: block;
+    }
+
+    .menu__content{
+        position: sticky;
+        display: flex;
+        flex-direction: column;
+        top: 0;
+        margin-left: 32.3%;
+        height: 100vh;
+        width: 67.7%;
+        background: #FFFFFF;
+        z-index: 10;
+    }
+
+    .menu__btn-close{
+        position: absolute;
+        top: 44.44px;
+        right: 44.44px;
+        padding: 0;
+        border: none;
+        background: none;
+    }
+    
+    .menu__btn-close-image{
+        width: 22px;
+        height: 22px;
+    }
+    
+    .menu__nav{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        margin: 20.7% auto 11.98%;
+    }
+    
+    .menu__link{
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        text-decoration: none;
+        color: #000;
+    }
+    
+    .menu__link_account{
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        display: flex;
+        height: 30px;
+        align-items: center;
+        text-decoration: none;
+        color: #000;
+        margin-top: 81.64%;
+    }
+    
+    .menu__account-icon{
+        background-color: #F5F5F5;
+        border-radius: 4px;
+        padding: 8px 7.25px;
+        margin-left: 17px;
+    }
+    
+    .menu__link_active{
+        text-decoration: underline;
+    }
+  
+}
+
+@media screen and (max-width: 700px) {
+
+    .menu__content{
+        margin-left: 16.3%;
+        width: 83.7%;
+    }
+    .menu__btn-close{
+        top: 40px;
+        right: 40px;
+    }
+    .menu__nav{
+        gap: 26px;
+        margin: 33.2% auto 13.5%;
+    }
+    .menu__link_account{
+        margin-top: 110.2%;
+    }
+}
+
+@media screen and (max-width: 640px) {
+
+    .menu__content{
+        margin-left: 0;
+        width: 100%;
+    }
+    .menu__btn-close{
+        top: 35.44px;
+        right: 35.44px;
+    }
+
+    .menu__nav{
+        gap: 24px;
+        margin: 45% auto 15%;
+    }
+
+    .menu__link_account{
+        margin-top: 138.75%;
+    }
+}

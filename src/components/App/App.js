@@ -14,31 +14,58 @@ import './App.css';
 function App() {
 
 const [checkbox, setCheckbox] = useState(true);
+const [headerMenu, setHeaderMenu] = useState(false);
 
 function handleCheckbox() {
     setCheckbox(!checkbox);
   }
 
+  function handleNavMenuClick() {
+    setHeaderMenu(true)
+  }
+
+  function closeAll() {
+    setHeaderMenu(false)
+  }
+
+
   
     return (
         <>
         <div className="app">
-            <Header />
             <Switch>
               <Route exact path="/">
                 <Main />
               </Route>
               <Route path="/movies">
+              <Header 
+            isOpen={headerMenu}
+            onClose={closeAll}
+            onMenuBtnClick={() =>{handleNavMenuClick()}}
+            />
                 <Movies
                 handleCheckbox={handleCheckbox}
                 checkbox={checkbox}
                  />
+                <Footer />
               </Route>
               <Route path="/saved-movies">
+              <Header 
+            isOpen={headerMenu}
+            onClose={closeAll}
+            onMenuBtnClick={() =>{handleNavMenuClick()}}
+            />
                 <SavedMovies />
+                <Footer />
               </Route>
               <Route path="/profile">
+              <Header 
+            isOpen={headerMenu}
+            onClose={closeAll}
+            onMenuBtnClick={() =>{handleNavMenuClick()}}
+            />
                 <Profile />
+                <Footer />
               </Route>
               <Route path="/signup">
                 <Register />
@@ -50,7 +77,6 @@ function handleCheckbox() {
                 <PageNotFound />
               </Route>
               </Switch>
-            <Footer />
         </div>
         </>
     );
