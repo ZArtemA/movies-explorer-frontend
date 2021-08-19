@@ -35,7 +35,6 @@
     border-radius: 30px;
     cursor: pointer;
     transition: all .5s linear;
-    border: 1px red solid;
 }
 
 .pseudo-item-knob{
