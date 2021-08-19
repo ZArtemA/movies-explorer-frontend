@@ -48,6 +48,14 @@
     background: url(../../images/like-btn-active.svg) center no-repeat;    
 }
 
+.movie-card__btn-delete{
+    width: 24px;
+    height: 24px;
+    margin-top: 9px;
+    border: none;
+    background: url(../../images/delete-btn.svg) center no-repeat;    
+}
+
 
 .movie-card__duration{
     font-size: 11px;

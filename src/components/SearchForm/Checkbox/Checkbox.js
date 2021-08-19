@@ -6,7 +6,7 @@ function Checkbox({ handleCheckbox, checkbox }) {
     return (
         <fieldset className="checkbox">
         <p className="checkbox-text">Короткометражки</p>
-        <label className="checkbox-btn" for="checkbox">
+        <label className="checkbox-btn" htmlFor="checkbox">
         <input
            onClick={handleCheckbox}
            type="checkbox"
