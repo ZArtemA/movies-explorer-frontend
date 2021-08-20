@@ -1,24 +1,29 @@
 import React from 'react';
 import './Profile.css';
 
-function Profile() {
+function Profile(props) {
+
     return (
         <section className="profile">
             <h1 className="profile__greetings">Привет Виталий</h1>
-            <form className="profile__form">
-            <fieldset className="profile__form-fieldset">
-                <p>Имя</p>
-                <input className="profile__form-item">
-                </input>
+            <div className={`profile__info ${props.isOpen ? 'profile__info_hide' : ''}`}>
+                <p className="profile__line">Имя<span className="profile__line_userinfo">Виталий</span></p>
+                <p className="profile__line">Почта<span className="profile__line_userinfo">pochta@yandex.ru</span></p>
+                <p className="profile__btn" onClick={props.onEditBtnClick}>Редактировать</p>
+                <p className="profile__btn profile__btn_quit">Выйти из аккаунта</p>
+            </div>
+            <form className={`profile__form ${props.isOpen ? 'profile__form_opened' : ''}`}>
+            <fieldset className="profile__line">
+                Имя
+                <input className="profile__form-item"></input>
                 </fieldset>
-                <fieldset className="profile__form-fieldset">
-                <p>E-mail</p>
-                <input className="profile__form-item">
-                </input>
+                <fieldset className="profile__line">
+                Почта
+                <input className="profile__form-item"></input>
                 </fieldset>
-                <button className="profile__edit-btm">Редактировать</button>
+                <p className="profile__edit-error">При обновлении профиля произошла ошибка.</p>
+                <button className="profile__save-btn" onClick={props.onSaveBtnClick}>Сохранить</button>
             </form>
-            <button className="profile__quit-btn">Выйти из аккаунта</button>
         </section>
     )
 }

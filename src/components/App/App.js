@@ -15,6 +15,7 @@ function App() {
 
 const [checkbox, setCheckbox] = useState(true);
 const [headerMenu, setHeaderMenu] = useState(false);
+const [editForm, setEditForm] = useState(false);
 
 function handleCheckbox() {
     setCheckbox(!checkbox);
@@ -23,6 +24,14 @@ function handleCheckbox() {
   function handleNavMenuClick() {
     setHeaderMenu(true)
   }
+  function handleEditBtnClick() {
+    setEditForm(true)
+  }
+
+  function handleSaveBtnClick() {
+    setEditForm(false)
+  }
+
 
   function closeAll() {
     setHeaderMenu(false)
@@ -64,8 +73,11 @@ function handleCheckbox() {
             onClose={closeAll}
             onMenuBtnClick={() =>{handleNavMenuClick()}}
             />
-                <Profile />
-                <Footer />
+                <Profile
+             isOpen={editForm}
+             onEditBtnClick={() =>{handleEditBtnClick()}}
+             onSaveBtnClick={() =>{handleSaveBtnClick()}}
+                />
               </Route>
               <Route path="/signup">
                 <Register />
