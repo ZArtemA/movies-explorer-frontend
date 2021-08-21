@@ -41,7 +41,7 @@ function handleCheckbox() {
   
     return (
         <>
-        <div className="app">
+        <main className="app">
             <Switch>
               <Route exact path="/">
                 <Main />
@@ -89,7 +89,7 @@ function handleCheckbox() {
                 <PageNotFound />
               </Route>
               </Switch>
-        </div>
+        </main>
         </>
     );
   }
