@@ -1,17 +1,16 @@
   
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import logo from "../../logo.svg";
 import menu_icon from "../../images/menu-btn.svg";
 import HeaderPopupMenu from './HeaderPopupMenu/HeaderPopupMenu'; 
 import Navigation from '../Navigation/Navigation';
+import Logo from '../Logo/Logo';
 
 import './Header.css';
 
 function Header({onClose, isOpen, onMenuBtnClick }) {
     return (
         <header className="header">
-            <NavLink exact to="/"><img className="header__logo" src={logo} alt="Лого" /></NavLink>
+            <Logo/>
             <div className="header__navigation">
             <Navigation />
             </div>
