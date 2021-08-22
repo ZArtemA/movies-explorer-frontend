@@ -1,10 +1,10 @@
 import React from 'react';
 import closeButton from '../../../images/close-btn.svg';
 
-import './HeaderPopupMenu.css';
-import Navigation from '../../Navigation/Navigation';
+import './NavPopupMenu.css';
+import Navigation from '../Navigation';
 
-function HeaderPopupMenu(props) {
+function NavPopupMenu(props) {
     return (
         <div className={`menu ${props.isOpen ? 'menu_opened' : ''}`}>
             <div className="menu__content">
@@ -17,4 +17,4 @@ function HeaderPopupMenu(props) {
     )
 };
 
-export default HeaderPopupMenu;
+export default NavPopupMenu;

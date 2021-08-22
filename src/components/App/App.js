@@ -44,7 +44,13 @@ function handleCheckbox() {
         <main className="app">
             <Switch>
               <Route exact path="/">
+              <Header 
+            isOpen={headerMenu}
+            onClose={closeAll}
+            onMenuBtnClick={() =>{handleNavMenuClick()}}
+            />
                 <Main />
+                <Footer />
               </Route>
               <Route path="/movies">
               <Header 

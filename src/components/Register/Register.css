@@ -1,0 +1,43 @@
+.register{
+    margin: 5.469% 34.53%;
+}
+
+.register__greetings{
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+}
+
+.register__link{
+    font-size: 14px;
+    line-height: 17px;
+    color: #A0A0A0;
+    text-align: center;
+}
+
+@media screen and (max-width: 1110px) {
+
+    .register{
+        padding: 0 4.685%;
+    }
+}
+
+@media screen and (max-width: 940px) {
+
+    .register{
+        margin: 11.5% 22%;
+    }
+
+}
+
+@media screen and (max-width: 520px) {
+
+    .register{
+        margin: 17.5% 9.375% 9.375%;
+    }
+
+    .register__link{
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

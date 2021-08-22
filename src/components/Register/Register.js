@@ -2,12 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Form from '../Form/Form';
 import Logo from '../Logo/Logo';
+import './Register.css';
 
 function Register() {
     return (
         <section className="register">
             <Logo/>
-            <h1 className="register__greetings">заглушка регистрация</h1>
+            <h1 className="register__greetings">Добро пожаловать!</h1>
     <Form>  
     <p>Имя</p>
                 <input/>
@@ -17,7 +18,7 @@ function Register() {
                 <input/>
                 <span></span>
     </Form>
- <p>Уже зарегистрированы? <Link to="signup">Войти</Link></p>
+ <p className="register__link">Уже зарегистрированы? <Link to="signin">Войти</Link></p>
  </section>
     )
 }

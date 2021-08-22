@@ -1,0 +1,43 @@
+.login{
+    margin: 5.469% 34.53%;
+}
+
+.login__greetings{
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+}
+
+.login__link{
+    font-size: 14px;
+    line-height: 17px;
+    color: #A0A0A0;
+    text-align: center;
+}
+
+@media screen and (max-width: 1110px) {
+
+    .login{
+        padding: 0 4.685%;
+    }
+}
+
+@media screen and (max-width: 940px) {
+
+    .login{
+        margin: 11.5% 22%;
+    }
+
+}
+
+@media screen and (max-width: 520px) {
+
+    .login{
+        margin: 17.5% 9.375% 9.375%;
+    }
+
+    .login__link{
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

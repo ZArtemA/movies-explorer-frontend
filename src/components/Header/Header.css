@@ -9,29 +9,11 @@
     line-height: 16px;
 }
 
-.header__navigation{
-    display: block;
-}
-
-.header__menu-btn{
-    display: none;
-}
-
 @media screen and (max-width: 1110px) {
 
     .header{
         padding: 0 4.685%;
     }
-
-    .header__navigation{
-        display: none;
-    }
-
-    .header__menu-btn{
-        display: block;
-    }
-
-
 }
 
 @media screen and (max-width: 940px) {
