@@ -2,10 +2,12 @@ import './Form.css'
 
 function Form(props) {
     return (
-        <form className="popup__textplace" id={`${props.id}-form`} name={`${props.name}-form`} onSubmit={props.onSubmit}>
+        <form className="form" id={`${props.id}-form`} name={`${props.name}-form`} onSubmit={props.onSubmit}>
         {props.children}
-        <p className="form_error"></p>
-        <button className="popup__btn-save" type="submit" value="Сохранить" aria-label="Сохранить">{props.button}</button>
+        <div className="form__button">
+        <span className="form__error"></span>
+        <button className="form__btn-save" type="submit" value="Сохранить" aria-label="Сохранить">{props.button}</button>
+        </div>
         </form>
     )
 }

@@ -1,5 +1,4 @@
-import React from 'react'
-import './CardsNotFound.css'
+import './CardsNotFound.css';
 
 const CardsNotFound = () => {
     return (

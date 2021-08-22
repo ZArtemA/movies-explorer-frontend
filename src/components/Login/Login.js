@@ -12,9 +12,10 @@ function Login() {
  <Form>
                 <p>E-mail</p>
                 <input/>
+                <span className="form__input-error"></span>
                 <p>Пароль</p>
                 <input/>
-                <span></span>
+                <span className="form__input-error"></span>
  </Form>
  <p className="login__link">Ещё не зарегистрированы? <Link to="signup">Регистрация</Link></p>
  </section>

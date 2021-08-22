@@ -1,4 +1,3 @@
-import React from 'react';
 import './Checkbox.css';
 
 function Checkbox({ handleCheckbox, checkbox }) {

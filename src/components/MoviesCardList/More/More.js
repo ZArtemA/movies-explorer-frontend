@@ -1,4 +1,3 @@
-import React from 'react';
 import './More.css';
 
 function More() {

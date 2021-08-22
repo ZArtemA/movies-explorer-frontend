@@ -1,5 +1,3 @@
-  
-import React from 'react';
 import './SearchForm.css';
 import button from '../../images/find.svg';
 import Checkbox from './Checkbox/Checkbox';

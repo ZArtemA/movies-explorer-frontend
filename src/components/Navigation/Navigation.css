@@ -24,16 +24,6 @@
     line-height: 16px;
 }
 
-.nav__link_signup{
-    background-color: #fff;
-}
-
-.nav__link_signin{
-    padding: 8px 20px;
-    background-color: #2BE080;
-    border-radius: 3px;
-}
-
 .nav__link{
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
@@ -54,6 +44,16 @@
     line-height: 16px;
     display: flex;
     align-items: center;
+}
+
+.nav__link_signup{
+    color: #fff;
+}
+
+.nav__link_signin{
+    padding: 8px 20px;
+    background-color: #2BE080;
+    border-radius: 3px;
 }
 
 .nav__account-icon{

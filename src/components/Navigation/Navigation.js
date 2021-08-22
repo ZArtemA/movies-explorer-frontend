@@ -1,5 +1,3 @@
-  
-import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import account_icon from "../../images/account-img.svg";
 import menu_icon from "../../images/menu-btn.svg";
@@ -14,7 +12,6 @@ function Navigation({onClose, isOpen, onMenuBtnClick}) {
         <>
         <div className="navigation">
             <nav className="nav__menu">
-            <NavLink exact to="/" activeClassName="nav__link_active" className="nav__link nav__link_main">Главная</NavLink>
             <NavLink to="/movies" activeClassName="nav__link_active" className="nav__link">Фильмы</NavLink>
             <NavLink to="/saved-movies" activeClassName="nav__link_active" className="nav__link">Сохранённые фильмы</NavLink>
             <NavLink to="/profile" activeClassName="nav__link_active" className="nav__link nav__link_account">
