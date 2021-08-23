@@ -50,6 +50,11 @@
     font-size: 13px;
     line-height: 16px;
     cursor: pointer;
+    transition: filter .4s;
+}
+
+.profile__btn:hover{
+    filter: opacity(70%);
 }
 
 .profile__btn_quit{
@@ -126,6 +131,8 @@
     border-radius: 3px;
     height: 45px;
     cursor: pointer;
+    border: none;
+    padding: 0;
 }
 
 @media screen and (max-width: 1110px) {
