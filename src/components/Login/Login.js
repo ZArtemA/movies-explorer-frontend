@@ -17,9 +17,9 @@ function Login({handleSignin}) {
  button={'Войти'}
  >
                 <p className="form__input-name">E-mail</p>
-                <input className="form__input" />
+                <input className="form__input" type="email" maxLength="100" minLength="5" />
                 <span className="form__input-error"></span>
-                <p className="form__input-name">Пароль</p>
+                <p className="form__input-name" type="password" maxLength="40" minLength="5">Пароль</p>
                 <input className="form__input" />
                 <span className="form__input-error"></span>
  </Form>

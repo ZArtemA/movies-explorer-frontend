@@ -14,11 +14,11 @@ function Profile(props) {
             <form className={`profile__form ${props.isOpen ? 'profile__form_opened' : ''}`}>
             <fieldset className="profile__line">
                 Имя
-                <input className="profile__form-item" placeholder="Артем"></input>
+                <input className="profile__form-item" type="text" maxLength="40" minLength="2" placeholder="Артем"></input>
                 </fieldset>
                 <fieldset className="profile__line">
                 Почта
-                <input className="profile__form-item" placeholder="pochta@yandex.ru"></input>
+                <input className="profile__form-item" type="email" maxLength="100" minLength="5" placeholder="pochta@yandex.ru"></input>
                 </fieldset>
                 <p className="profile__edit-error"></p>
                 <button className="profile__save-btn" onClick={props.onSaveBtnClick}>Сохранить</button>
