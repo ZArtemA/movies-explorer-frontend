@@ -5,18 +5,22 @@
     position: relative;
 }
 
-.form p{
+.form__input-name{
     font-size: 10px;
     line-height: 12px;
     color: #A0A0A0;
     margin-bottom: 10px;
 }
 
-.form input{
+.form__input{
     background: #F9F9F9;
     border-radius: 8px;
     border: none;
     width: 100%;
+}
+
+.form__input_error{
+    color: #FF3055;
 }
 
 .form .form__input-error{
@@ -54,6 +58,15 @@
     font-size: 14px;
     line-height: 17px;
     color: #FFFFFF;
+}
+
+.form__btn-save_inactive{
+    background: #F8F8F8;
+    color: #C2C2C2;
+}
+
+.form__btn-save_inactive:hover{
+    cursor: default;
 }
 
 @media screen and (max-width: 940px) {

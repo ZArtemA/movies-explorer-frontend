@@ -5,20 +5,25 @@ import './Register.css';
 
 import { PAGE_LOGIN } from '../../utils/constants';
 
-function Register() {
+function Register({handleSignup}) {
     return (
         <section className="register">
             <Logo/>
             <h1 className="register__greetings">Добро пожаловать!</h1>
-    <Form>  
-                <p>Имя</p>
-                <input/>
+    <Form
+     id={'registration'}
+     name={'signup'}
+     onSubmit={handleSignup}
+     button={'Зарегистрироваться'}
+    >  
+                <p className="form__input-name">Имя</p>
+                <input className="form__input" />
                 <span className="form__input-error"></span>
-                <p>E-mail</p>
-                <input/>
+                <p className="form__input-name">E-mail</p>
+                <input className="form__input" />
                 <span className="form__input-error"></span>
-                <p>Пароль</p>
-                <input/>
+                <p className="form__input-name">Пароль</p>
+                <input className="form__input" />
                 <span className="form__input-error"></span>
     </Form>
  <p className="register__link">Уже зарегистрированы? <Link to={PAGE_LOGIN}>Войти</Link></p>
