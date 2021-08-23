@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import Logo from '../Logo/Logo';
 

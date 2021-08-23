@@ -1,5 +1,5 @@
 .about{
-    padding: 0 5.469%;
+    padding: 0 5.47%;
 }
 
 .about__title{
@@ -10,12 +10,12 @@
     width: 100%;
     border-bottom: solid 1px #000000;
     padding-bottom: 23px;
+    margin: 9.65% 0 70px;
 }
 
 .about__content{
-    margin-top: 70px;
     display: flex;
-    gap: 3.125%;
+    gap: 3.51%;
 }
 
 .about__subtitle{
@@ -23,7 +23,7 @@
     line-height: 24px;
     letter-spacing: -0.04em;
     font-weight: 400;
-    margin-bottom: 26px;
+    margin-bottom: 2.28%;
 }
 
 .about__text{
@@ -40,6 +40,7 @@
     grid-template-rows: 36px 36px;
     font-size: 14px;
     line-height: 17px;
+    text-align: center;
 }
 
 div span{
@@ -56,29 +57,30 @@ div span{
 
 .about__weeks{
     font-weight: 400;
-    text-align: center;
-
 }
 
 .about__notes{
     font-weight: 500;
-    text-align: center;
     color: #A0A0A0;
 }
 
 @media screen and (max-width: 1110px) {
+
+    .about{
+        padding: 0 4.69%;
+    }
+
+    .about__title{
+        margin-top: 11.56%;
+    }
+
     .about__content{
-        gap: 5.53%;
+        gap: 4%;
     }
 
     .about__subtitle{
-        margin-bottom: 24px;
-    }
-
-    .about__subtitle_opacity{
-        opacity: 0.6;
-    }
-    
+        margin-bottom: 2.62%;
+    }  
   
     .about__text{
         font-size: 13px;
@@ -86,23 +88,28 @@ div span{
     }
 
     .about__timeline{
-        margin-top: 10%;
-        grid-template-columns: 21% 79%;
+        margin-top: 11.79%;
+        grid-template-columns: 26.5% 73.5%;
     }
 }
 
 @media screen and (max-width: 940px) {
 
     .about{
-        padding: 0 3.91%;
+        padding: 0 6.51%;
+    }
+
+    .about__title{
+        margin-top: 13.47%;
     }
 
     .about__content{
-        gap: 7.937%;
+        gap: 4.49%;
     }
 
+
     .about__subtitle{
-        margin-bottom: 22px;
+        margin-bottom: 3.29%;
     }
     
     .about__text{
@@ -111,7 +118,7 @@ div span{
     }
 
     .about__timeline{
-        margin-top: 10.33%;
+        margin-top: 13.92%;
     }
 
     
@@ -120,37 +127,34 @@ div span{
 @media screen and (max-width: 520px) {
 
     .about{
-        padding: 0 4.29%;
+        padding: 0 6.95%;
     }
 
     .about__title{
         font-size: 20px;
         line-height: 24px;
-        padding-bottom: 26px;
+        padding-bottom: 4.46%;
+        margin: 18.11% 0 11.38%;
     }
 
     .about__content{
-        margin-top: 65px;
         flex-direction: column;
+        align-items: center;
         gap: 48px;
     }
 
     .about__subtitle{
         font-size: 19px;
         line-height: 23px;
-        margin-bottom: 25px;
+        margin-bottom: 4%;
     }
     
     .about__text{
         line-height: 17px;
     }
 
-    div:last-child h3{
-        opacity: 1;
-    }
-
     .about__timeline{
-        margin-top: 15.56%;
+        margin-top: 17.3%;
         gap: 2px 0;
         grid-template-columns: 28% 72%;
         grid-template-rows: 36px 36px;
@@ -167,24 +171,21 @@ div span{
 @media screen and (max-width: 410px) {
 
     .about{
-        padding: 0 3.125%;
+        padding: 0 5.63%;
     }
 
     .about__title{
         font-size: 18px;
         line-height: 22px;
-        padding-bottom: 28px;
+        padding-bottom: 9.86%;
+        margin: 24.65% 0 21.13%;
     }
 
-    .about__content{
-        margin-top: 60px;
-        gap: 56px;
-    }
 
     .about__subtitle{
         font-size: 18px;
         line-height: 22px;
-        margin-bottom: 16px;
+        margin-bottom: 5.63%;
     }
     
     .about__text{

@@ -24,7 +24,7 @@
     letter-spacing: -0.04em;
     color: #000000;
     text-decoration: none;
-    border-bottom: 1px solid #E5E5E5;
+    border-bottom: 1px solid #E8E8E8;
     padding-bottom: 19px;
 }
 
@@ -35,7 +35,7 @@ nav .portfolio__link:last-of-type{
 @media screen and (max-width: 1110px) {
 
     .portfolio{
-        padding: 0 3.67% 10.74%;
+        padding: 0 6.49% 10.74%;
     }
     
 
@@ -44,7 +44,7 @@ nav .portfolio__link:last-of-type{
 @media screen and (max-width: 940px) {
 
     .portfolio{
-        padding: 0 3.91% 11.72%;
+        padding: 0 6.51% 11.72%;
     }
   
     .portfolio__link{
@@ -57,7 +57,7 @@ nav .portfolio__link:last-of-type{
 
 @media screen and (max-width: 520px) {
     .portfolio{
-        padding: 0 4.29% 16.8%;
+        padding: 0 6.95% 16.8%;
     }
 
     .portfolio__title{
@@ -66,8 +66,8 @@ nav .portfolio__link:last-of-type{
     }
 
     .portfolio__link{
-        font-size: 18px;
-        line-height: 28px;
+        font-size: 23px;
+        line-height: 39px;
     }
     
 }
@@ -75,7 +75,7 @@ nav .portfolio__link:last-of-type{
 @media screen and (max-width: 410px) {
 
     .portfolio{
-        padding: 0 3.125% 21.875%;
+        padding: 0 5.63% 21.875%;
     }
     
     .portfolio__title{
@@ -85,7 +85,7 @@ nav .portfolio__link:last-of-type{
 
    
     .portfolio__link{
-        font-size: 24px;
-        line-height: 39px;
+        font-size: 18px;
+        line-height: 28px;
     }
 }

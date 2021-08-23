@@ -7,13 +7,13 @@
     font-style: normal;
 }
 .app a, button{
-    transition: filter .4s;
+    transition: all .4s;
 }
 
 .app a:hover{
-    filter: opacity(70%);
+    opacity: 70%;
 }
 
 .app button:hover{
-    filter: opacity(70%);
+    opacity: 70%;
 }
