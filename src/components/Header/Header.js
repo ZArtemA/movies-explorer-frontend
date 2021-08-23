@@ -6,7 +6,7 @@ import './Header.css';
 
 function Header({onClose, isOpen, onMenuBtnClick }) {
     return (
-        <header className={`header ${useLocation().pathname === '/' ? 'header_main' : ''}`}>
+        <header className="header">
             <Logo/>
             <Navigation
             isOpen={isOpen}

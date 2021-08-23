@@ -9,10 +9,6 @@
     line-height: 16px;
 }
 
-.header_main{
-    background-color: #073042;
-}
-
 @media screen and (max-width: 1110px) {
 
     .header{
