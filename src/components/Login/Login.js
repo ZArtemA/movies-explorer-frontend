@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Form from '../Form/Form';
 import Logo from '../Logo/Logo';
 import "./Login.css";
+import { PAGE_REGISTRATION } from '../../utils/constants';
 
 function Login() {
     return (
@@ -17,7 +18,7 @@ function Login() {
                 <input/>
                 <span className="form__input-error"></span>
  </Form>
- <p className="login__link">Ещё не зарегистрированы? <Link to="signup">Регистрация</Link></p>
+ <p className="login__link">Ещё не зарегистрированы? <Link to={PAGE_REGISTRATION}>Регистрация</Link></p>
  </section>
     )
 }

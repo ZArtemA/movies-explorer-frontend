@@ -3,6 +3,8 @@ import Form from '../Form/Form';
 import Logo from '../Logo/Logo';
 import './Register.css';
 
+import { PAGE_LOGIN } from '../../utils/constants';
+
 function Register() {
     return (
         <section className="register">
@@ -19,7 +21,7 @@ function Register() {
                 <input/>
                 <span className="form__input-error"></span>
     </Form>
- <p className="register__link">Уже зарегистрированы? <Link to="signin">Войти</Link></p>
+ <p className="register__link">Уже зарегистрированы? <Link to={PAGE_LOGIN}>Войти</Link></p>
  </section>
     )
 }
