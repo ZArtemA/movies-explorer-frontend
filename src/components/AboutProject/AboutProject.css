@@ -162,7 +162,7 @@ div .about__weeks, .about__notes{
         line-height: 15px;
     }
 
-    div span{
+    .about__timeline span{
         padding-top: 10px;
     }
 

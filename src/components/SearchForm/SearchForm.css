@@ -1,33 +1,36 @@
 .search-form{
-    padding: 80px 5.469% 10px;
-}
-
-.search-form__box{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
+    margin: 80px 5.46% 10px;
     padding-bottom: 39px;
     border-bottom: #E8E8E8 1px solid;
 }
 
+.search-form__box{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
 .search-form__bar{
-    width: 81.9%;
-    position: relative;
-    height: 48px;
-    margin: 0;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto 44px;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    height: 50px;
+    margin: 0 0 2.52%;
     padding: 0;
-    border: 1px solid #E8E8E8;
-    border-radius: 8px;
+    border: none;
 }
 
 .search-form__input{
-    width: 100%;
     height: 100%;
     padding: 0;
-    height: 48px;
-    margin: 0 7px 0 18px;
     border: none;
+    border-radius: 8px;
+    background: #F9F9F9;
+    padding-left: 20px;
 }
 
 .search-form__input:focus{
@@ -36,20 +39,20 @@
 
 .search-form__input::placeholder{
     font-weight: 400;
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 16px;
+    line-height: 20px;
     color: #A0A0A0;
 }
 
+.search-form__input:focus::placeholder{
+    color: transparent;
+}
+
 .search-form__submit-btn{
-    position: absolute;
-    width: 34px;
-    height: 34px;
-    top: 7px;
-    right: 7px;
     padding: 0;
-    margin-left: 46px;
     border: none;
+    width: 44px;
+    height: 44px;
     background-color: #FFFFFF;
 }
 
@@ -60,45 +63,43 @@
 @media screen and (max-width: 1110px) {
 
     .search-form{
-        padding: 70px 4.685% 10px;
+        margin: 70px 4.18% 10px;
     }
-    .search-form__box{
-        flex-direction: column;
-        align-items: center;
-        gap: 45px;
-        padding-bottom: 70px;
-    }
+
     .search-form__bar{
-        width: 100%;
+        margin-bottom: 4.06%;
     }
 }
 
 @media screen and (max-width: 940px) {
 
     .search-form{
-        padding: 60px 3.9% 10px;
+        margin: 70px 3.9% 10px;
     }
-    .search-form__box{
-        gap: 37px;
-        padding-bottom: 57px;
+
+    .search-form__bar{
+        margin-bottom: 5.65%;
     }
+
 }
 
 @media screen and (max-width: 520px) {
 
     .search-form{
-        padding: 60px 3.125% 10px;
+        margin: 80px 4.375% 10px;
     }
-    .search-form__box{
-        gap: 44px;
-        padding-bottom: 44px;
+
+    .search-form__bar{
+        margin-bottom: 15.75%;
     }
 
     .search-form__input{
-        margin-left: 16px;
+        padding: 1.26% 0 1.26% 5.46%;
     }
 
     .search-form__input::placeholder{
-        font-size: 11px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 18px;
     }
 }
