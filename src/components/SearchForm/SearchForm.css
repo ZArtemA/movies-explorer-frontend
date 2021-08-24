@@ -4,9 +4,10 @@
 
 .search-form__box{
     display: flex;
-    justify-content: space-between;
-    width: auto;
-    padding-bottom: 83px;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    padding-bottom: 39px;
     border-bottom: #E8E8E8 1px solid;
 }
 
@@ -17,7 +18,7 @@
     margin: 0;
     padding: 0;
     border: 1px solid #E8E8E8;
-    border-radius: 30px;
+    border-radius: 8px;
 }
 
 .search-form__input{
