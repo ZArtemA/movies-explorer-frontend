@@ -1,5 +1,5 @@
 .register{
-    padding: 5.469% 34.53%;
+    padding: 5.47% 34.53%;
 }
 
 .register__greetings{
@@ -19,14 +19,14 @@
 @media screen and (max-width: 1110px) {
 
     .register{
-        padding: 8.5% 28%;
+        padding: 17.84% 29.37%;
     }
 }
 
 @media screen and (max-width: 940px) {
 
     .register{
-        padding: 11.5% 22%;
+        padding: 30.21% 24.22%;
     }
 
 }
@@ -34,7 +34,14 @@
 @media screen and (max-width: 644px) {
 
     .register__greetings{
-        margin: 10.2% 0 15%;
+        margin: 6.21% 0;
+    }
+}
+
+@media screen and (max-width: 582px) {
+
+    .register__greetings{
+        margin: 12.72% 0 18.49;
     }
 }
 
@@ -45,7 +52,7 @@
     }
 
     .register__greetings{
-        margin: 15.625% 0 25%;
+        margin: 19.23% 0 30.77%;
     }
 
     .register__link{

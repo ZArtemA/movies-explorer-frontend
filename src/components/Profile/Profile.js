@@ -1,4 +1,6 @@
 import './Profile.css';
+import Form from '../Form/Form';
+import { INPUT_ERROR } from '../../utils/constants';
 
 function Profile(props) {
 
@@ -11,18 +13,22 @@ function Profile(props) {
                 <p className="profile__btn" onClick={props.onEditBtnClick}>Редактировать</p>
                 <p className="profile__btn profile__btn_quit">Выйти из аккаунта</p>
             </div>
-            <form className={`profile__form ${props.isOpen ? 'profile__form_opened' : ''}`}>
-            <fieldset className="profile__line">
-                Имя
-                <input className="profile__form-item" type="text" maxLength="40" minLength="2" placeholder="Артем"></input>
-                </fieldset>
-                <fieldset className="profile__line">
-                Почта
-                <input className="profile__form-item" type="email" maxLength="100" minLength="5" placeholder="pochta@yandex.ru"></input>
-                </fieldset>
-                <p className="profile__edit-error"></p>
-                <button className="profile__save-btn" onClick={props.onSaveBtnClick}>Сохранить</button>
-            </form>
+            <div className={`profile__form ${props.isOpen ? 'profile__form_opened' : ''}`}>
+                <Form
+                    id={'profile'}
+                    name={'user'}
+                    onSubmit={props.onSave}
+                    button={'Сохранить'}
+                    >
+                        <p className="form__input-name" type="text" maxLength="40" minLength="5">Имя</p>
+                        <input className="form__input" type="text" maxLength="40" minLength="2" placeholder="Артем" />
+                        <span className="form__input-error">{INPUT_ERROR}</span>
+                        <p className="form__input-name">Почта</p>
+                        <input className="form__input" type="email" maxLength="100" minLength="5" placeholder="pochta@yandex.ru" />
+                        <span className="form__input-error">{INPUT_ERROR}</span>
+                        <p className="profile__btn-cancel" onClick={props.onClose}>Отмена</p>
+                </Form>
+            </div>
         </section>
     )
 }

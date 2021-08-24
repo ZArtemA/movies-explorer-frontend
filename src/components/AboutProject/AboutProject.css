@@ -43,7 +43,7 @@
     text-align: center;
 }
 
-div span{
+div .about__weeks, .about__notes{
     padding-top: 9px;
 }
 
@@ -202,8 +202,8 @@ div span{
         line-height: 13px;
     }
 
-    div span{
-        padding-top: 11px;
+    div .about__weeks, .about__notes{
+        padding-top: 9px;
     }
 
 }

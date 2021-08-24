@@ -35,6 +35,7 @@ function handleCheckbox() {
 
   function closeAll() {
     setHeaderMenu(false)
+    setEditForm(false)
   }
 
 
@@ -82,7 +83,8 @@ function handleCheckbox() {
                 <Profile
              isOpen={editForm}
              onEditBtnClick={() =>{handleEditBtnClick()}}
-             onSaveBtnClick={() =>{handleSaveBtnClick()}}
+             onSave={() =>{handleSaveBtnClick()}}
+             onClose={closeAll}
                 />
               </Route>
               <Route path="/signup">

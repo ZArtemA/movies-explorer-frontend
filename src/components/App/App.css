@@ -12,8 +12,20 @@
 
 .app a:hover{
     opacity: 70%;
+    cursor: pointer;
 }
 
 .app button:hover{
     opacity: 70%;
+    cursor: pointer;
+}
+
+input{
+    outline: none;
+}
+input:active{
+    outline: none;
+}
+:focus {
+    outline: none;
 }

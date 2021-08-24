@@ -35,8 +35,8 @@
 
 .profile__info p:first-child, .profile__form fieldset:first-child{
     border-bottom: 1px solid #E8E8E8;
-    padding-bottom: 7px;
-    margin-bottom: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 17px;
 }
 
 .profile__line_userinfo{
@@ -60,7 +60,24 @@
 .profile__btn_quit{
     margin: 0;
     font-weight: 500;
-    color: #FF004D;
+    color: #FF3055;
+}
+
+.profile__btn-cancel{
+    font-weight: 500;
+    color: #FF3055;
+    position: absolute;
+    bottom: 100px;
+    text-align: center;
+    background-color: #FFFFFF;
+    margin: 0 38%;
+    width: 24%;
+    transition: opacity 0.4;
+}
+
+.profile__btn-cancel:hover{
+    opacity: 0.8;
+    cursor: pointer;
 }
 
 .profile__form{
@@ -203,17 +220,17 @@
     }
 
     .profile__info{
-        width: 88.438%;
+        width: 81.5%;
         margin-bottom: 12.5%;
     }
 
     .profile__form{
-        width: 88.438%;
+        width: 81.5%;
         margin-bottom: 12.5%;
     }
 
     .profile__btn{
-        margin: 118.438% 0 5%;
+        margin: 145.77% 0 6.15%;
         font-size: 12px;
         line-height: 15px;
     }

@@ -1,5 +1,5 @@
 .login{
-    padding: 5.469% 34.53%;
+    padding: 5.47% 34.53%;
 }
 
 .login__greetings{
@@ -19,21 +19,29 @@
 @media screen and (max-width: 1110px) {
 
     .login{
-        padding: 8.5% 28%;
+        padding: 17.84% 29.37%;
     }
 }
 
 @media screen and (max-width: 940px) {
 
     .login{
-        padding: 11.5% 22%;
+        padding: 30.21% 24.22%;
     }
 
 }
+
 @media screen and (max-width: 644px) {
 
     .login__greetings{
-        margin: 10.2% 0 15%;
+        margin: 6.21% 0;
+    }
+}
+
+@media screen and (max-width: 582px) {
+
+    .login__greetings{
+        margin: 12.72% 0 18.49;
     }
 }
 
@@ -44,7 +52,7 @@
     }
 
     .login__greetings{
-        margin: 15.625% 0 25%;
+        margin: 19.23% 0 30.77%;
     }
 
     .login__link{
