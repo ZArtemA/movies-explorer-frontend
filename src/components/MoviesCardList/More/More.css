@@ -1,12 +1,12 @@
-.cards__more{
+.more{
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
   
-  .cards__more-btn{
-    width: 89%;
+  .more__btn{
+    width: 320px;
     height: 36px;
     font-size: 12px;
     line-height: 15px;
@@ -17,15 +17,9 @@
     font-weight: 500;
   }
 
-  @media screen and (max-width: 940px) {
-    .cards__more-btn{
-      width: 92.18%;
-    }
-}
-
 @media screen and (max-width: 520px) {
 
-  .cards__more-btn{
-    width: 93.75%;
+  .more_btn{
+    width: 75%;
   }
 }

@@ -3,8 +3,8 @@ import './More.css';
 function More() {
 
     return (
-        <div className="cards__more">
-        <button className="cards__more-btn">Ещё</button>
+        <div className="more">
+        <button className="more__btn">Ещё</button>
         </div>
     )
 }
