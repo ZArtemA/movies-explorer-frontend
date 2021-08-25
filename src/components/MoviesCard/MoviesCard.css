@@ -84,12 +84,6 @@
         margin: 4% 12px;
     }
 
-    .movie-card__image-rotate{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-
     .movie-card__image{
         width: 240px;
         height: 137px;
@@ -116,7 +110,6 @@
 
     .movie-card__image{
         width: 100%;
-        padding-top: 56%;
         height: auto;
     }
 

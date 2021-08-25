@@ -17,9 +17,7 @@ function MoviesCard({ card }) {
                     type="button">
                     </button>
                     </div>
-                    <div className="movie-card__image-rotate">
-            <div className="movie-card__image" style={{ backgroundImage: `url(${card.link})` }}></div>
-            </div>
+            <img className="movie-card__image" src={card.link} alt={card.name} />
         </li>
     )
 }
