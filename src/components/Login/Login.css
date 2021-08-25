@@ -1,5 +1,7 @@
 .login{
     padding: 5.47% 34.53%;
+    display: flex;
+    flex-direction: column;
 }
 
 .login__greetings{
@@ -49,6 +51,7 @@
 
     .login{
         padding: 17.5% 9.375% 9.375%;
+        align-items: center;
     }
 
     .login__greetings{
