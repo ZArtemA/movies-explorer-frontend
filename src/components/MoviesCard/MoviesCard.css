@@ -84,10 +84,9 @@
         margin: 4% 12px;
     }
 
-    .movie-card__image{
-        width: 240px;
-        height: 137px;
-        margin: 0 auto;
+        .movie-card__image{
+        width: 100%;
+        height: auto;
     }
 
     .card__title{
@@ -106,11 +105,6 @@
 
     .movie-card{
         margin-bottom: 6.66%;
-    }
-
-    .movie-card__image{
-        width: 100%;
-        height: auto;
     }
 
     .card__title{
