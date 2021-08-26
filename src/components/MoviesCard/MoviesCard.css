@@ -1,0 +1,119 @@
+.movie-card{
+    width: 100%;
+    padding: 0;
+    margin: 0 0 40px;
+    background: #F9F9F9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.movie-card__content{
+    display: flex;
+    flex-direction: column;
+    margin: 22px;
+    justify-content: space-between;
+}
+
+.movie-card__info{
+    display: flex;
+    flex-direction: column;
+}
+
+.movie-card__image{
+    width: 220px;
+    height: 122px;
+    margin: 6px;
+    border: none;
+    background-size: cover;
+    display: block;
+}
+
+.card__title{
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    margin: 0 0 13px;
+}
+
+.movie-card__duration{
+    font-size: 11px;
+    line-height: 13px;
+    margin: 0;
+    color: #A0A0A0;
+}
+
+.movie-card__btn-like{
+    width: 14px;
+    height: 12px;
+    margin-top: 30px;
+    padding: 0;
+    border: none;
+    background: url(../../images/like-btn-inactive.svg) center no-repeat;    
+}
+
+.movie-card__btn-like_active{
+    background: url(../../images/like-btn-active.svg) center no-repeat;    
+}
+
+.movie-card__btn-delete{
+    width: 14px;
+    height: 12px;
+    margin-top: 30px;
+    padding: 0;
+    border: none;
+    background: url(../../images/delete-btn.svg) center no-repeat;    
+}
+
+
+@media screen and (max-width: 520px) {
+
+    .movie-card{
+        margin-bottom: 4.84%;
+        flex-direction: column-reverse;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .movie-card__content{
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        width: 92%;
+        justify-content: space-between;
+        margin: 4% 12px;
+    }
+
+        .movie-card__image{
+        width: 100%;
+        height: auto;
+    }
+
+    .card__title{
+        font-size: 15px;
+        line-height: 18px;
+        margin: 0 0 10px;
+    }
+
+    .movie-card__btn-like{
+        margin: 3px 5px 0 0;
+    }
+}
+
+@media screen and (max-width: 420px) {
+
+
+    .movie-card{
+        margin-bottom: 6.66%;
+    }
+
+    .card__title{
+        font-size: 12px;
+        line-height: 15px;
+        margin: 0 0 8px;
+    }
+
+    .movie-card__btn-like{
+        margin: 2px 4px 0 0;
+    }
+}
