@@ -17,8 +17,10 @@ function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [movies, setMovies] = useState([]);
+  const [userData, setUserData] = useState({ email: '', password: '' })
   const [currentUser, setCurrentUser] = useState([]);
   const history = useHistory();
+
 
 const [checkbox, setCheckbox] = useState(true);
 const [headerMenu, setHeaderMenu] = useState(false);
@@ -47,9 +49,64 @@ useEffect(() => {
 }, [loggedIn])
 
 
-function handleSignOut() {
+function handleRegister(email, password, name) {
+  MainApi.register(email, password, name)
+    .then(() => history.push('/sign-in'))
+    .catch((error) => {
+      console.log(`Ошибка: ${error}`)
+    })
+}
+
+
+function handleLogin({ email, password }) {
+  MainApi.authorize(email, password)
+    .then((data) => {
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        setUserData({ email: email, password: password, })
+        MainApi.updateToken();
+        setLoggedIn({
+          loggedIn: true
+        });
+        history.push("/movies");
+        return loggedIn;
+      }
+    })
+    .catch(error => {
+      if (error === 401) {
+        return console.log(`Пользователь с таким email не найден: ${error}`);
+      }
+      if (error === 400) {
+        return console.log(`Не передано одно из полей: ${error}`);
+      }
+      console.log(`Ошибка: ${error}`);
+    });
+}
+
+function tokenCheck() {
+  if (localStorage.getItem('token')) {
+    const token = localStorage.getItem('token');
+    MainApi.checkToken(token).then((res) => {
+      if (res) {
+        setLoggedIn({
+          loggedIn: true,
+        });
+        setUserData({ email: res.email, name: res.name,  });
+        history.push("/");
+      }
+    })
+      .catch((error) => {
+        console.log(`Ошибка проверки токена: ${error}`)
+      })
+  }
+}
+
+tokenCheck();
+
+function LogOut() {
   localStorage.removeItem('token');
   setLoggedIn(false);
+  setUserData({ email: '', name: '', })
   history.push('/sign-in');
 }
 
@@ -85,6 +142,7 @@ function handleCheckbox() {
             <Switch>
               <Route exact path="/">
               <Header 
+            userData={userData}
             isOpen={headerMenu}
             onClose={closeAll}
             onMenuBtnClick={() =>{handleNavMenuClick()}}
@@ -97,7 +155,7 @@ function handleCheckbox() {
             isOpen={headerMenu}
             onClose={closeAll}
             onMenuBtnClick={() =>{handleNavMenuClick()}}
-            onSignOut={()=>{handleSignOut()}}
+            onSignOut={()=>{LogOut()}}
             />
                 <Movies
                 handleCheckbox={handleCheckbox}
@@ -129,10 +187,14 @@ function handleCheckbox() {
                 />
               </Route>
               <Route path="/signup">
-                <Register />
+                <Register
+                handleRegister={handleRegister}
+                />
               </Route>
               <Route path="/signin">
-                <Login />
+                <Login
+                handleLogin={handleLogin}
+                />
               </Route>
               <Route path="*">
                 <PageNotFound />
