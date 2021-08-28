@@ -9,6 +9,10 @@
     line-height: 18px;
 }
 
+.header_unauth{
+    background-color: #132f40;
+}
+
 @media screen and (max-width: 1110px) {
 
     .header{

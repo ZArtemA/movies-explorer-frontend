@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -12,11 +12,12 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import Footer from '../Footer/Footer';
 import './App.css';
 import MainApi from '../../utils/MainApi';
+import MoviesApi from '../../utils/MoviesApi';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);
-  const [movies, setMovies] = useState([]);
   const [userData, setUserData] = useState({ email: '', password: '' })
   const [currentUser, setCurrentUser] = useState([]);
   const history = useHistory();
@@ -25,6 +26,12 @@ function App() {
 const [checkbox, setCheckbox] = useState(true);
 const [headerMenu, setHeaderMenu] = useState(false);
 const [editForm, setEditForm] = useState(false);
+
+const [allMovies, setAllMovies] = React.useState([]);
+const [movies, setMovies] = React.useState([]);
+const [savedMovies, setSavedMovies] = React.useState([]);
+
+
 
 useEffect(() => {
   if (loggedIn) {
@@ -51,10 +58,17 @@ useEffect(() => {
 
 function handleRegister(email, password, name) {
   MainApi.register(email, password, name)
-    .then(() => history.push('/sign-in'))
-    .catch((error) => {
-      console.log(`Ошибка: ${error}`)
+    .then((res) => {
+      if (res) {handleLogin(email, password);}
     })
+    .then(() => history.push('/movies'))
+    .catch((err) => {
+      if (err.status === 409) {
+        console.log('Такой email уже существует');
+      } else {
+        console.log('Что-то пошло не так! Попробуйте ещё раз.');
+      }
+    });
 }
 
 
@@ -64,7 +78,6 @@ function handleLogin({ email, password }) {
       if (data.token) {
         localStorage.setItem("token", data.token);
         setUserData({ email: email, password: password, })
-        MainApi.updateToken();
         setLoggedIn({
           loggedIn: true
         });
@@ -73,15 +86,32 @@ function handleLogin({ email, password }) {
       }
     })
     .catch(error => {
-      if (error === 401) {
-        return console.log(`Пользователь с таким email не найден: ${error}`);
-      }
       if (error === 400) {
-        return console.log(`Не передано одно из полей: ${error}`);
+        return console.log(`Неверный email или пароль`);
       }
-      console.log(`Ошибка: ${error}`);
+      else {
+        return console.log(`Что-то пошло не так!`);
+      }
     });
 }
+
+function handleUpdateUser(currentUser) {
+  MainApi.patchPersonInfo(currentUser, localStorage.getItem('token'))
+    .then((result) => {
+      setCurrentUser({
+        name: result.name,
+        email: result.about,
+      })
+    })
+    .catch((error) => { 
+      if (error === 409) {
+        return console.log(`Такой email уже зарегистрирован`);
+      }
+      else {
+      console.log(`Что-то пошло не так!`);}
+    });
+}
+
 
 function tokenCheck() {
   if (localStorage.getItem('token')) {
@@ -92,7 +122,6 @@ function tokenCheck() {
           loggedIn: true,
         });
         setUserData({ email: res.email, name: res.name,  });
-        history.push("/");
       }
     })
       .catch((error) => {
@@ -101,14 +130,72 @@ function tokenCheck() {
   }
 }
 
-tokenCheck();
+React.useEffect(() => {
+  tokenCheck();
+}, []);
 
 function LogOut() {
   localStorage.removeItem('token');
   setLoggedIn(false);
   setUserData({ email: '', name: '', })
-  history.push('/sign-in');
+  history.push('/');
 }
+
+
+function getAllMovies() {
+  MoviesApi
+    .getMovies()
+    .then((res) => {
+      const moviesArray = res.map((item) => {
+        return {
+          image: `https://api.nomoreparties.co${item.image.url}`,
+          trailer: item.trailerLink,
+          thumbnail: `https://api.nomoreparties.co${item.image.formats.thumbnail.url}`,
+          country: item.country,
+          director: item.director,
+          duration: item.duration,
+          year: item.year,
+          description: item.description,
+          nameEN: item.nameEN,
+          nameRU: item.nameRU,
+          id: item.id,
+        };
+      });
+
+      localStorage.setItem("allMovies", JSON.stringify(moviesArray));
+      setAllMovies(moviesArray);
+    })
+    .catch(() => {
+      localStorage.removeItem("allMovies");
+      console.log("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз");
+    });
+}
+
+
+
+function moviesSearch(request){
+  const newArr = getAllMovies.filter(item => {
+    return item.textContent.match(request) 
+  })
+  return newArr;
+}
+
+
+function savedMoviesSearch(){
+  
+}
+
+
+var data = [{ id: 123, name: "г. Москва" }, { id: 124, name: "г. Немосква" }];
+var cutySearch = "г. Москва";
+
+var cityId = data.filter(function(val) {
+  return val.name == cutySearch;
+})[0].id;
+console.log(cityId);
+
+
+
 
 
 
@@ -142,7 +229,7 @@ function handleCheckbox() {
             <Switch>
               <Route exact path="/">
               <Header 
-            userData={userData}
+            loggedIn={loggedIn}
             isOpen={headerMenu}
             onClose={closeAll}
             onMenuBtnClick={() =>{handleNavMenuClick()}}
@@ -150,42 +237,34 @@ function handleCheckbox() {
                 <Main />
                 <Footer />
               </Route>
-              <Route path="/movies">
-              <Header 
-            isOpen={headerMenu}
-            onClose={closeAll}
-            onMenuBtnClick={() =>{handleNavMenuClick()}}
-            onSignOut={()=>{LogOut()}}
-            />
+              <ProtectedRoute path="/movies" >
+              {!loggedIn && (<Redirect to="/" />)}
+              <Header />
                 <Movies
                 handleCheckbox={handleCheckbox}
                 checkbox={checkbox}
                 movies={movies}
                  />
                 <Footer />
-              </Route>
-              <Route path="/saved-movies">
-              <Header 
-            isOpen={headerMenu}
-            onClose={closeAll}
-            onMenuBtnClick={() =>{handleNavMenuClick()}}
-            />
+              </ProtectedRoute>
+              <ProtectedRoute path="/saved-movies">
+              {!loggedIn && (<Redirect to="/" />)}
+              <Header />
                 <SavedMovies />
                 <Footer />
-              </Route>
-              <Route path="/profile">
-              <Header 
-            isOpen={headerMenu}
-            onClose={closeAll}
-            onMenuBtnClick={() =>{handleNavMenuClick()}}
-            />
+              </ProtectedRoute>
+              <ProtectedRoute path="/profile">
+              {!loggedIn && (<Redirect to="/" />)}
+              <Header />
                 <Profile
-             isOpen={editForm}
-             onEditBtnClick={() =>{handleEditBtnClick()}}
-             onSave={() =>{handleSaveBtnClick()}}
-             onClose={closeAll}
+            userData={userData}
+            isOpen={editForm}
+            onEditBtnClick={() =>{handleEditBtnClick()}}
+            onSave={() =>{handleSaveBtnClick()}}
+            onClose={closeAll}
+            onSignOut={()=>{LogOut()}}
                 />
-              </Route>
+              </ProtectedRoute>
               <Route path="/signup">
                 <Register
                 handleRegister={handleRegister}

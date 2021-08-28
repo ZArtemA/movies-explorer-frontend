@@ -14,7 +14,7 @@ class MainApi {
 
       
   
-  register = (name, email, password) => {
+  register(name, email, password) {
     return fetch(`${this._url}/signup`, {
       method: 'POST',
       headers: {
@@ -29,10 +29,13 @@ class MainApi {
   };
   
   
-  authorize = (email, password) => {
+  authorize(email, password) {
     return fetch(`${this._url}/signin`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+    },
       body: JSON.stringify({ password, email })
     })
       .then((res) => res.json())
@@ -44,19 +47,27 @@ class MainApi {
       });
   };
 
-  getPersonInfo() {
+  getPersonInfo(token) {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
-      headers: this._headers,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+    },
     }).then(response => {
         return this._getResJson(response);
     })
   };
 
-patchPersonInfo({name, email}) {
+patchPersonInfo({name, email}, token) {
     return fetch(`${this._url}/users/me`, {
         method: 'PATCH',
-        headers: this._headers,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
             name: name,
             email: email
@@ -67,22 +78,39 @@ patchPersonInfo({name, email}) {
 }
 
 
-    getInitialCards() {
+    getInitialCards(token) {
         return fetch(`${this._url}/movies`, {
-            headers: this._headers,
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }).then(response => {
             return this._getResJson(response);
         });
     }
 
 
-    addCard({ name, link }) {
-        return fetch(`${this._address}/v1/${this._groupID}/cards`, {
+    addCard(data, token) {
+        return fetch(`${this._url}/movies`, {
             method: 'POST',
-            headers: this._headers,
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
             body: JSON.stringify({
-                name: name,
-                link: link
+              country: data.country,
+              director: data.director,
+              duration: data.duration,
+              year: data.year,
+              description: data.description,
+              image: data.image,
+              trailer: data.trailer,
+              thumbnail: data.image,
+              movieId: data.id,
+              nameRU: data.nameRU,
+              nameEN: data.nameEN,
             })
         })
             .then(response => {
@@ -90,10 +118,14 @@ patchPersonInfo({name, email}) {
             })
     }
 
-    removeCard(_id) {
-        return fetch(`${this._address}/v1/${this._groupID}/cards/${_id}`, {
+    removeCard(id, token) {
+        return fetch(`${this._url}/movies/${id}`, {
             method: 'DELETE',
-            headers: this._headers,
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
         })
             .then(response => {
                 if (response.ok) {
@@ -102,14 +134,17 @@ patchPersonInfo({name, email}) {
                 return Promise.reject(new Error(`Ошибка: ${response.status}`));
             })
     }
+
+    checkToken(token) {
+      return fetch(`${this._address}/users/me`, {
+        headers: {
+          Accept: "application/json",
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        }
+      }).then(this._checkResponse);
+    }
     
 }
 
-export default new MainApi({
-    url: `https://api.artem-diplomaproject.nomoredomains.club/`,
-    headers: {
-        Accept: "application/json",
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      },
-    });
+export default new MainApi({url: `https://api.artem-diplomaproject.nomoredomains.club/`});
