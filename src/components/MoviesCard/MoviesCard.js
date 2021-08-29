@@ -1,7 +1,7 @@
 import './MoviesCard.css';
 import { useLocation } from "react-router-dom";
 
-function MoviesCard({ card }) {
+function MoviesCard({ card, onSave, onDelete }) {
 
     let pathname = useLocation().pathname;
 
@@ -14,7 +14,9 @@ function MoviesCard({ card }) {
             </div>
                     <button 
                     className={pathname === "/movies" ? `movie-card__btn-like ${card.isLiked ? "movie-card__btn-like_active" : ""}` : "movie-card__btn-delete"}
-                    type="button">
+                    type="button"
+                    onClick={!card.isLiked ? onSave : onDelete}
+                    >
                     </button>
                     </div>
             <img className="movie-card__image" src={card.link} alt={card.name} />

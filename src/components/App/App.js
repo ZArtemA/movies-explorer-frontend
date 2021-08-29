@@ -30,7 +30,7 @@ const [allMovies, setAllMovies] = useState([]);//Все фильмы
 const [movies, setMovies] = useState([]);//Поиск по фильмам
 const [savedMovies, setSavedMovies] = useState([]);//Все сохраненные фильмы
 const [findSavedMovies, setFindSavedMovies] = useState([]);//Поиск по сохраненным фильмам
-
+const [preloader, setPreloader] = useState(false);//Прелоадер крутится - загрузка мутится
 
 function handleCheckbox() {
   setCheckbox(!checkbox);
@@ -48,12 +48,11 @@ function closeAll() {
   setEditForm(false)
 }
 
-
 useEffect(() => {
   if (loggedIn) {
   Promise.all([
     MainApi.getPersonInfo(),
-    MainApi.getInitialCards()
+    MainApi.getInitialCards(),
   ])
     .then((result) => {
       const [ownerInfo, cardsArray] = result;
@@ -63,12 +62,14 @@ useEffect(() => {
       })
       setSavedMovies(cardsArray)
     })
+    getAllMovies()
+    JSON.parse(localStorage.getItem('moviesFind'))
+    JSON.parse(localStorage.getItem('savedMoviesFind'))
     .catch((error) => {
       console.log(`Ошибка получения данных: ${error}`);
     });
   }
 }, [loggedIn])
-
 
 function handleRegister(email, password, name) {
   MainApi.register(email, password, name)
@@ -189,33 +190,47 @@ function getAllMovies() {
 
 
 function moviesSearch(request){
+  setPreloader(true);
   const newArr = allMovies.filter((item) => {
     return item.nameRU.includes(request) || item.nameEN.includes(request) || item.director.includes(request) ||item.country.includes(request)
   })
-  localStorage.setItem(movies, JSON.stringify(newArr));
-  return newArr;
+  localStorage.setItem('moviesFind', JSON.stringify(newArr));
+  setPreloader(false);
+  setMovies(newArr);
 }
 
 
 function savedMoviesSearch(request){
+  setPreloader(true);
   const newArr = savedMovies.filter((item) => {
     return item.nameRU.includes(request) || item.nameEN.includes(request) || item.director.includes(request) ||item.country.includes(request)
   })
-  localStorage.setItem(savedMovies, JSON.stringify(newArr));
-  return newArr;
+  localStorage.setItem('savedMoviesFind', JSON.stringify(newArr));
+  setPreloader(false);
+  setFindSavedMovies(newArr);
 }
 
 
-var data = [{ id: 123, name: "г. Москва" }, { id: 124, name: "г. Немосква" }];
-var cutySearch = "г. Москва";
 
-var cityId = data.filter(function(val) {
-  return val.name == cutySearch;
-})[0].id;
-console.log(cityId);
+function addMovie(movie) {
+  MainApi.addCard(movie)
+    .then((newCard) => {
+      setSavedMovies(savedMovies => ([newCard, ...savedMovies]));
+    })
+    .catch((error) => {
+      console.log(`На сервере произошла ошибка: ${error}`);
+    });
+}
 
-
-
+function deleteMovie(movie) {
+  MainApi.removeCard(movie._id)
+    .then(() => {
+      setSavedMovies(savedMovies => savedMovies.filter((state) => state._id !== movie._id));
+    })
+    .catch((error) => {
+      console.log(`На сервере произошла ошибка: ${error}`);
+    });
+}
 
 
   
@@ -234,33 +249,38 @@ console.log(cityId);
                 <Main />
                 <Footer />
               </Route>
-              <ProtectedRoute path="/movies" >
+              <ProtectedRoute path="/movies" loggedIn={loggedIn}>
               <Header />
                 <Movies
                 handleCheckbox={handleCheckbox}
                 checkbox={checkbox}
                 movies={movies}
                 onSubmit={moviesSearch}
+                onSave={addMovie}
+                onDelete={deleteMovie}
+                preloader={preloader}
                  />
                 <Footer />
               </ProtectedRoute>
-              <ProtectedRoute path="/saved-movies">
+              <ProtectedRoute path="/saved-movies" loggedIn={loggedIn}>
               <Header />
                 <SavedMovies 
                 handleCheckbox={handleCheckbox}
                 checkbox={checkbox}
                 movies={savedMovies}
                 onSubmit={savedMoviesSearch}
+                onDelete={deleteMovie}
+                preloader={preloader}
                 />
                 <Footer />
               </ProtectedRoute>
-              <ProtectedRoute path="/profile">
+              <ProtectedRoute path="/profile" loggedIn={loggedIn}>
               <Header />
                 <Profile
             userData={userData}
             isOpen={editForm}
-            onEditBtnClick={() =>{handleEditBtnClick()}}
-            onSave={() =>{handleUpdateUser()}}
+            onEditBtnClick={handleEditBtnClick}
+            onSave={handleUpdateUser}
             onClose={closeAll}
             onSignOut={()=>{LogOut()}}
                 />
