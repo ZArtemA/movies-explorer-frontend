@@ -50,6 +50,7 @@ class MainApi {
   getPersonInfo(token) {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
+      credentials: 'include',
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -63,6 +64,7 @@ class MainApi {
 patchPersonInfo({name, email}, token) {
     return fetch(`${this._url}/users/me`, {
         method: 'PATCH',
+        credentials: 'include',
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -80,6 +82,7 @@ patchPersonInfo({name, email}, token) {
 
     getInitialCards(token) {
         return fetch(`${this._url}/movies`, {
+          credentials: 'include',
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -94,6 +97,7 @@ patchPersonInfo({name, email}, token) {
     addCard(data, token) {
         return fetch(`${this._url}/movies`, {
             method: 'POST',
+            credentials: 'include',
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
@@ -121,6 +125,7 @@ patchPersonInfo({name, email}, token) {
     removeCard(id, token) {
         return fetch(`${this._url}/movies/${id}`, {
             method: 'DELETE',
+            credentials: 'include',
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
@@ -137,6 +142,7 @@ patchPersonInfo({name, email}, token) {
 
     checkToken(token) {
       return fetch(`${this._address}/users/me`, {
+        credentials: 'include',
         headers: {
           Accept: "application/json",
           'Content-Type': 'application/json',

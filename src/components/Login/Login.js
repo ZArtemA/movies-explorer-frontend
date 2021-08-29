@@ -12,13 +12,9 @@ function Login({handleSignin}) {
         password: '',
     });
 
-    function handleChange(e) {
-        const { name, value } = e.target;
-        setData({
-            ...data,
-            [name]: value
-        })
-    }
+      function handleChange(e) {
+        setData({[e.target.name]: e.target.value});
+  }
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -44,7 +40,7 @@ function Login({handleSignin}) {
                         <input className="form__input"
                         id="email-input"
                         type="email"
-                        value={data.email || ""}
+                        value={data.email}
                         maxLength="100"
                         minLength="5"
                         placeholder="Введите почту"
@@ -55,7 +51,7 @@ function Login({handleSignin}) {
                         <span className="form__input-error">{INPUT_ERROR}</span>
                         <p className="form__input-name" type="password" maxLength="40" minLength="5">Пароль</p>
                         <input className="form__input"
-                        value={data.password || ""}
+                        value={data.password}
                         placeholder="Введите пароль"
                         onChange={handleChange} />
                         <span className="form__input-error">{INPUT_ERROR}</span>

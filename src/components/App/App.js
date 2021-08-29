@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -13,24 +13,40 @@ import Footer from '../Footer/Footer';
 import './App.css';
 import MainApi from '../../utils/MainApi';
 import MoviesApi from '../../utils/MoviesApi';
-import ProtectedRoute from './ProtectedRoute';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
 
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [userData, setUserData] = useState({ email: '', password: '' })
-  const [currentUser, setCurrentUser] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);//Авторизован
+  const [userData, setUserData] = useState({ email: '', name: '' });//Данные юзера
   const history = useHistory();
 
 
-const [checkbox, setCheckbox] = useState(true);
-const [headerMenu, setHeaderMenu] = useState(false);
-const [editForm, setEditForm] = useState(false);
+const [checkbox, setCheckbox] = useState(true);//Кнопка чекбокса короткометражек
+const [headerMenu, setHeaderMenu] = useState(false);//Открывание меню хедера
+const [editForm, setEditForm] = useState(false);//Открыть форму изменения данных
 
-const [allMovies, setAllMovies] = React.useState([]);
-const [movies, setMovies] = React.useState([]);
-const [savedMovies, setSavedMovies] = React.useState([]);
+const [allMovies, setAllMovies] = useState([]);//Все фильмы
+const [movies, setMovies] = useState([]);//Поиск по фильмам
+const [savedMovies, setSavedMovies] = useState([]);//Все сохраненные фильмы
+const [findSavedMovies, setFindSavedMovies] = useState([]);//Поиск по сохраненным фильмам
 
+
+function handleCheckbox() {
+  setCheckbox(!checkbox);
+}
+
+function handleNavMenuClick() {
+  setHeaderMenu(true)
+}
+function handleEditBtnClick() {
+  setEditForm(true)
+}
+
+function closeAll() {
+  setHeaderMenu(false)
+  setEditForm(false)
+}
 
 
 useEffect(() => {
@@ -41,13 +57,11 @@ useEffect(() => {
   ])
     .then((result) => {
       const [ownerInfo, cardsArray] = result;
-      setCurrentUser({
+      setUserData({
         name: ownerInfo.name,
-        about: ownerInfo.about,
-        avatar: ownerInfo.avatar,
-        id: ownerInfo.id
+        email: ownerInfo.email,
       })
-      setMovies(cardsArray)
+      setSavedMovies(cardsArray)
     })
     .catch((error) => {
       console.log(`Ошибка получения данных: ${error}`);
@@ -95,13 +109,14 @@ function handleLogin({ email, password }) {
     });
 }
 
-function handleUpdateUser(currentUser) {
-  MainApi.patchPersonInfo(currentUser, localStorage.getItem('token'))
+function handleUpdateUser(userData) {
+  MainApi.patchPersonInfo(userData, localStorage.getItem('token'))
     .then((result) => {
-      setCurrentUser({
+      setUserData({
         name: result.name,
-        email: result.about,
+        email: result.email,
       })
+      closeAll();
     })
     .catch((error) => { 
       if (error === 409) {
@@ -130,7 +145,7 @@ function tokenCheck() {
   }
 }
 
-React.useEffect(() => {
+useEffect(() => {
   tokenCheck();
 }, []);
 
@@ -174,15 +189,20 @@ function getAllMovies() {
 
 
 function moviesSearch(request){
-  const newArr = getAllMovies.filter(item => {
-    return item.textContent.match(request) 
+  const newArr = allMovies.filter((item) => {
+    return item.nameRU.includes(request) || item.nameEN.includes(request) || item.director.includes(request) ||item.country.includes(request)
   })
+  localStorage.setItem(movies, JSON.stringify(newArr));
   return newArr;
 }
 
 
-function savedMoviesSearch(){
-  
+function savedMoviesSearch(request){
+  const newArr = savedMovies.filter((item) => {
+    return item.nameRU.includes(request) || item.nameEN.includes(request) || item.director.includes(request) ||item.country.includes(request)
+  })
+  localStorage.setItem(savedMovies, JSON.stringify(newArr));
+  return newArr;
 }
 
 
@@ -198,32 +218,9 @@ console.log(cityId);
 
 
 
-
-function handleCheckbox() {
-    setCheckbox(!checkbox);
-  }
-
-  function handleNavMenuClick() {
-    setHeaderMenu(true)
-  }
-  function handleEditBtnClick() {
-    setEditForm(true)
-  }
-
-  function handleSaveBtnClick() {
-    setEditForm(false)
-  }
-
-
-  function closeAll() {
-    setHeaderMenu(false)
-    setEditForm(false)
-  }
-
-
   
     return (
-      <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={userData}>
         <>
         <main className="app">
             <Switch>
@@ -238,29 +235,32 @@ function handleCheckbox() {
                 <Footer />
               </Route>
               <ProtectedRoute path="/movies" >
-              {!loggedIn && (<Redirect to="/" />)}
               <Header />
                 <Movies
                 handleCheckbox={handleCheckbox}
                 checkbox={checkbox}
                 movies={movies}
+                onSubmit={moviesSearch}
                  />
                 <Footer />
               </ProtectedRoute>
               <ProtectedRoute path="/saved-movies">
-              {!loggedIn && (<Redirect to="/" />)}
               <Header />
-                <SavedMovies />
+                <SavedMovies 
+                handleCheckbox={handleCheckbox}
+                checkbox={checkbox}
+                movies={savedMovies}
+                onSubmit={savedMoviesSearch}
+                />
                 <Footer />
               </ProtectedRoute>
               <ProtectedRoute path="/profile">
-              {!loggedIn && (<Redirect to="/" />)}
               <Header />
                 <Profile
             userData={userData}
             isOpen={editForm}
             onEditBtnClick={() =>{handleEditBtnClick()}}
-            onSave={() =>{handleSaveBtnClick()}}
+            onSave={() =>{handleUpdateUser()}}
             onClose={closeAll}
             onSignOut={()=>{LogOut()}}
                 />
