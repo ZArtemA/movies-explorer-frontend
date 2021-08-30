@@ -20,10 +20,12 @@ function Register({handleRegister}) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        console.log('Сабмит регистрации')
         const { email, password, name } = data;
         if (!email || !password || !name) {
             return;
         }
+        console.log('Сабмит регистрации 2')
         handleRegister({ email: email, password: password, name: name })
     }
     

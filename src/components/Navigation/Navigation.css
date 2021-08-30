@@ -45,6 +45,10 @@
     color: #000;
 }
 
+.nav__link_white{
+    color: #FFF;
+}
+
 .nav__link_active{
     font-weight: 500;
 }

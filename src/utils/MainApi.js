@@ -18,7 +18,6 @@ class MainApi {
     return fetch(`${this._url}/signup`, {
       method: 'POST',
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
     },
       body: JSON.stringify(name, email, password)
@@ -33,13 +32,15 @@ class MainApi {
     return fetch(`${this._url}/signin`, {
       method: "POST",
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
     },
       body: JSON.stringify({ password, email })
     })
-      .then((res) => res.json())
+      .then((res) => {
+        res.json()
+        console.log(res)})
       .then((data) => {
+        console.log(data)
         if (data.token) {
           localStorage.setItem("token", data.token);
           return data;
@@ -52,7 +53,6 @@ class MainApi {
       method: 'GET',
       credentials: 'include',
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
     },
@@ -66,7 +66,6 @@ patchPersonInfo({name, email}, token) {
         method: 'PATCH',
         credentials: 'include',
         headers: {
-          Accept: "application/json",
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
@@ -84,7 +83,6 @@ patchPersonInfo({name, email}, token) {
         return fetch(`${this._url}/movies`, {
           credentials: 'include',
           headers: {
-            Accept: "application/json",
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
@@ -99,7 +97,6 @@ patchPersonInfo({name, email}, token) {
             method: 'POST',
             credentials: 'include',
             headers: {
-              Accept: "application/json",
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
@@ -127,7 +124,6 @@ patchPersonInfo({name, email}, token) {
             method: 'DELETE',
             credentials: 'include',
             headers: {
-              Accept: "application/json",
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
@@ -144,7 +140,6 @@ patchPersonInfo({name, email}, token) {
       return fetch(`${this._address}/users/me`, {
         credentials: 'include',
         headers: {
-          Accept: "application/json",
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         }
@@ -153,4 +148,4 @@ patchPersonInfo({name, email}, token) {
     
 }
 
-export default new MainApi({url: `https://api.artem-diplomaproject.nomoredomains.club/`});
+export default new MainApi({url: `http://localhost:3000`});

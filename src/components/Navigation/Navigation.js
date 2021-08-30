@@ -48,7 +48,7 @@ function Navigation({onClose, isOpen, onMenuBtnClick, loggedIn}) {
             else {
     return (
         <nav className="nav__menu_main">
-            <NavLink to={PAGE_REGISTRATION} className="nav__link">Регистрация</NavLink>
+            <NavLink to={PAGE_REGISTRATION} className="nav__link nav__link_white">Регистрация</NavLink>
             <NavLink to={PAGE_LOGIN} className="nav__link nav__link_signin">Войти</NavLink>
         </nav>
     )

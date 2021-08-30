@@ -63,8 +63,8 @@ useEffect(() => {
       setSavedMovies(cardsArray)
     })
     getAllMovies()
-    JSON.parse(localStorage.getItem('moviesFind'))
-    JSON.parse(localStorage.getItem('savedMoviesFind'))
+    setMovies(JSON.parse(localStorage.getItem('moviesFind')))
+    setFindSavedMovies(JSON.parse(localStorage.getItem('savedMoviesFind')))
     .catch((error) => {
       console.log(`Ошибка получения данных: ${error}`);
     });
@@ -73,8 +73,13 @@ useEffect(() => {
 
 function handleRegister(email, password, name) {
   MainApi.register(email, password, name)
+  console.log(email, password, name)
     .then((res) => {
-      if (res) {handleLogin(email, password);}
+      
+      if (res) {handleLogin(email, password);
+        console.log(res);
+        console.log("Функция регистрации");
+      }
     })
     .then(() => history.push('/movies'))
     .catch((err) => {
@@ -90,22 +95,26 @@ function handleRegister(email, password, name) {
 function handleLogin({ email, password }) {
   MainApi.authorize(email, password)
     .then((data) => {
+      console.log(data)
       if (data.token) {
         localStorage.setItem("token", data.token);
+        console.log("Дошли сюда")
         setUserData({ email: email, password: password, })
+        console.log(email, password)
         setLoggedIn({
           loggedIn: true
         });
         history.push("/movies");
+        console.log("Функция логина")
         return loggedIn;
       }
     })
     .catch(error => {
-      if (error === 400) {
-        return console.log(`Неверный email или пароль`);
+      if (error === 401) {
+        return error.message;
       }
       else {
-        return console.log(`Что-то пошло не так!`);
+        return error.message;
       }
     });
 }
@@ -155,6 +164,8 @@ function LogOut() {
   setLoggedIn(false);
   setUserData({ email: '', name: '', })
   history.push('/');
+  localStorage.removeItem('moviesFind');
+  localStorage.removeItem('savedMoviesFind');
 }
 
 
