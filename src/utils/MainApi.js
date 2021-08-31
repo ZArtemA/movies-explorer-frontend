@@ -9,6 +9,7 @@ class MainApi {
         if (response.ok) {
             return response.json();
         }
+        console.log(response.status);
         return Promise.reject(new Error(`Ошибка: ${response.status}`));
     }
 
@@ -19,6 +20,7 @@ class MainApi {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Credentials': true,
     },
       body: JSON.stringify(name, email, password)
     })
@@ -32,20 +34,29 @@ class MainApi {
     return fetch(`${this._url}/signin`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Credentials': true,
     },
+      credentials: 'include',
       body: JSON.stringify({ password, email })
     })
-      .then((res) => {
-        res.json()
-        console.log(res)})
-      .then((data) => {
-        console.log(data)
-        if (data.token) {
-          localStorage.setItem("token", data.token);
-          return data;
-        }
-      });
+      .then(response => {
+        return this._getResJson(response);
+      })
+  };
+
+  quit() {
+    return fetch(`${this._url}/signout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Credentials': true,
+    },
+      credentials: 'include',
+    })
+      .then(response => {
+        return this._getResJson(response);
+      })
   };
 
   getPersonInfo(token) {
@@ -143,9 +154,11 @@ patchPersonInfo({name, email}, token) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         }
-      }).then(this._checkResponse);
-    }
-    
-}
+      }).then(response => {
+        console.log(response);
+        return this._getResJson(response);
+      })
+    };
+  }
 
 export default new MainApi({url: `http://localhost:3000`});

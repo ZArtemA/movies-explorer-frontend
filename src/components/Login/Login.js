@@ -25,15 +25,11 @@ function Login({handleLogin}) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log('Сабмит логина')
         const { email, password } = data;
         if (!data.email || !data.password) {
-            console.log(data.email, password);
             return;
         }
-        console.log(email, password)
         handleLogin({ email: email, password: password })
-        console.log('Сабмит логина 5')
     }
 
 
@@ -57,18 +53,20 @@ function Login({handleLogin}) {
                         placeholder="Введите почту"
                         onChange={handleChange}
                         autoComplete="off"
-                        
                          />
                          
                         <span className="form__input-error">{INPUT_ERROR}</span>
                         <p className="form__input-name">Пароль</p>
                         <input className="form__input"
+                        id="password-input"
                         placeholder="Введите пароль"
                         name="password"
                         type="password"
                         maxLength="40"
                         minLength="5"
-                        onChange={handleChange} />
+                        onChange={handleChange}
+                        autoComplete="off"
+                         />
                         <span className="form__input-error">{INPUT_ERROR}</span>
                     </Form>
                 <p className="login__link">Ещё не зарегистрированы? <Link to={PAGE_REGISTRATION}>Регистрация</Link></p>

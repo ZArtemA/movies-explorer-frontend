@@ -48,7 +48,7 @@ function closeAll() {
   setEditForm(false)
 }
 
-useEffect(() => {
+/*useEffect(() => {
   if (loggedIn) {
   Promise.all([
     MainApi.getPersonInfo(),
@@ -69,13 +69,12 @@ useEffect(() => {
       console.log(`Ошибка получения данных: ${error}`);
     });
   }
-}, [loggedIn])
+}, [loggedIn])*/
 
 function handleRegister(email, password, name) {
   MainApi.register(email, password, name)
   console.log(email, password, name)
     .then((res) => {
-      
       if (res) {handleLogin(email, password);
         console.log(res);
         console.log("Функция регистрации");
@@ -94,11 +93,11 @@ function handleRegister(email, password, name) {
 
 function handleLogin({ email, password }) {
   MainApi.authorize(email, password)
-    .then((data) => {
-      console.log(data)
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-        console.log("Дошли сюда")
+    .then((token) => {
+      console.log(token)
+      if (token) {
+        localStorage.setItem(token);
+        console.log(localStorage.getItem("token"))
         setUserData({ email: email, password: password, })
         console.log(email, password)
         setLoggedIn({
@@ -139,33 +138,55 @@ function handleUpdateUser(userData) {
 
 
 function tokenCheck() {
-  if (localStorage.getItem('token')) {
-    const token = localStorage.getItem('token');
+  if (document.cookie) {
+    const token = document.cookie;
+    console.log(document.cookie);
+    console.log(document.cookie.jwt);
+    console.log(token);
     MainApi.checkToken(token).then((res) => {
       if (res) {
         setLoggedIn({
           loggedIn: true,
         });
-        setUserData({ email: res.email, name: res.name,  });
-      }
+        setUserData({ email: res.email, name: res.name });
+      };
+        if (!localStorage.getItem("SAVED_MOVIES_ARRAY")) {
+          MainApi.getInitialCards().then((result) => {
+          setSavedMovies(result)
+          localStorage.setItem("SAVED_MOVIES_ARRAY", JSON.stringify(result));
+        })
+      } else {
+        setSavedMovies(JSON.parse(localStorage.getItem("SAVED_MOVIES_ARRAY")))}
+        if (!localStorage.getItem("MOVIES_ARRAY")) {
+          getAllMovies();
+        };
+        if (localStorage.getItem("MOVIES_SEARCH")) {
+          setMovies(JSON.parse(localStorage.getItem("MOVIES_SEARCH")))
+        };
+        if (localStorage.getItem("SAVED_MOVIES_SEARCH")) {
+          setFindSavedMovies(JSON.parse(localStorage.getItem("SAVED_MOVIES_SEARCH")))
+        };
     })
       .catch((error) => {
         console.log(`Ошибка проверки токена: ${error}`)
+        //MainApi.quit();
+        history.push("/");
       })
   }
 }
 
 useEffect(() => {
   tokenCheck();
-}, []);
+});
 
 function LogOut() {
-  localStorage.removeItem('token');
+  MainApi.quit();
   setLoggedIn(false);
-  setUserData({ email: '', name: '', })
-  history.push('/');
+  localStorage.removeItem('token');
   localStorage.removeItem('moviesFind');
   localStorage.removeItem('savedMoviesFind');
+  setUserData({ email: '', name: '', })
+  history.push('/');
 }
 
 
@@ -189,11 +210,11 @@ function getAllMovies() {
         };
       });
 
-      localStorage.setItem("allMovies", JSON.stringify(moviesArray));
+      localStorage.setItem("MOVIES_ARRAY", JSON.stringify(moviesArray));
       setAllMovies(moviesArray);
     })
     .catch(() => {
-      localStorage.removeItem("allMovies");
+      localStorage.removeItem("MOVIES_ARRAY");
       console.log("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз");
     });
 }
