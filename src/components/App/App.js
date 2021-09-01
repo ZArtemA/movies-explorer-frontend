@@ -48,29 +48,6 @@ function closeAll() {
   setEditForm(false)
 }
 
-/*useEffect(() => {
-  if (loggedIn) {
-  Promise.all([
-    MainApi.getPersonInfo(),
-    MainApi.getInitialCards(),
-  ])
-    .then((result) => {
-      const [ownerInfo, cardsArray] = result;
-      setUserData({
-        name: ownerInfo.name,
-        email: ownerInfo.email,
-      })
-      setSavedMovies(cardsArray)
-    })
-    getAllMovies()
-    setMovies(JSON.parse(localStorage.getItem('moviesFind')))
-    setFindSavedMovies(JSON.parse(localStorage.getItem('savedMoviesFind')))
-    .catch((error) => {
-      console.log(`Ошибка получения данных: ${error}`);
-    });
-  }
-}, [loggedIn])*/
-
 function handleRegister(email, password, name) {
   MainApi.register(email, password, name)
   console.log(email, password, name)
@@ -96,8 +73,6 @@ function handleLogin({ email, password }) {
     .then((token) => {
       console.log(token)
       if (token) {
-        localStorage.setItem(token);
-        console.log(localStorage.getItem("token"))
         setUserData({ email: email, password: password, })
         console.log(email, password)
         setLoggedIn({
@@ -136,48 +111,52 @@ function handleUpdateUser(userData) {
     });
 }
 
-
 function tokenCheck() {
   if (document.cookie) {
-    const token = document.cookie;
-    console.log(document.cookie);
-    console.log(document.cookie.jwt);
+    const token = document.cookie.replace('jwt=', '');
     console.log(token);
-    MainApi.checkToken(token).then((res) => {
+    MainApi.checkToken().then((res) => {
+      console.log('TokenChecked');
       if (res) {
         setLoggedIn({
           loggedIn: true,
         });
         setUserData({ email: res.email, name: res.name });
+        console.log(res);
       };
-        if (!localStorage.getItem("SAVED_MOVIES_ARRAY")) {
+        /*if (!localStorage.getItem("SAVED_MOVIES_ARRAY")) {
           MainApi.getInitialCards().then((result) => {
           setSavedMovies(result)
           localStorage.setItem("SAVED_MOVIES_ARRAY", JSON.stringify(result));
         })
+        console.log('2-1');
       } else {
-        setSavedMovies(JSON.parse(localStorage.getItem("SAVED_MOVIES_ARRAY")))}
+        setSavedMovies(JSON.parse(localStorage.getItem("SAVED_MOVIES_ARRAY")))
+        console.log('2-2');}
         if (!localStorage.getItem("MOVIES_ARRAY")) {
           getAllMovies();
+          console.log('3');
         };
         if (localStorage.getItem("MOVIES_SEARCH")) {
           setMovies(JSON.parse(localStorage.getItem("MOVIES_SEARCH")))
         };
         if (localStorage.getItem("SAVED_MOVIES_SEARCH")) {
           setFindSavedMovies(JSON.parse(localStorage.getItem("SAVED_MOVIES_SEARCH")))
-        };
+        };*/
     })
       .catch((error) => {
         console.log(`Ошибка проверки токена: ${error}`)
-        //MainApi.quit();
+        MainApi.quit();
         history.push("/");
       })
   }
 }
 
+
+
 useEffect(() => {
   tokenCheck();
-});
+}, []);
 
 function LogOut() {
   MainApi.quit();
@@ -265,7 +244,6 @@ function deleteMovie(movie) {
 }
 
 
-  
     return (
       <CurrentUserContext.Provider value={userData}>
         <>

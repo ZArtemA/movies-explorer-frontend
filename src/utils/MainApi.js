@@ -59,26 +59,24 @@ class MainApi {
       })
   };
 
-  getPersonInfo(token) {
+  getPersonInfo() {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       credentials: 'include',
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
     },
     }).then(response => {
         return this._getResJson(response);
     })
   };
 
-patchPersonInfo({name, email}, token) {
+patchPersonInfo(name, email) {
     return fetch(`${this._url}/users/me`, {
         method: 'PATCH',
         credentials: 'include',
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
             name: name,
@@ -90,12 +88,11 @@ patchPersonInfo({name, email}, token) {
 }
 
 
-    getInitialCards(token) {
+    getInitialCards() {
         return fetch(`${this._url}/movies`, {
           credentials: 'include',
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
           },
         }).then(response => {
             return this._getResJson(response);
@@ -103,13 +100,12 @@ patchPersonInfo({name, email}, token) {
     }
 
 
-    addCard(data, token) {
+    addCard(data) {
         return fetch(`${this._url}/movies`, {
             method: 'POST',
             credentials: 'include',
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               country: data.country,
@@ -130,13 +126,12 @@ patchPersonInfo({name, email}, token) {
             })
     }
 
-    removeCard(id, token) {
+    removeCard(id) {
         return fetch(`${this._url}/movies/${id}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
             },
         })
             .then(response => {
@@ -147,12 +142,13 @@ patchPersonInfo({name, email}, token) {
             })
     }
 
-    checkToken(token) {
-      return fetch(`${this._address}/users/me`, {
+    checkToken() {
+      return fetch(`${this._url}/users/me`, {
         credentials: 'include',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          'Access-Control-Allow-Credentials': true,
         }
       }).then(response => {
         console.log(response);
