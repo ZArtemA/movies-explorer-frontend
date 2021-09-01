@@ -5,7 +5,7 @@ import Logo from '../Logo/Logo';
 import "./Login.css";
 import { PAGE_REGISTRATION, INPUT_ERROR } from '../../utils/constants';
 
-function Login({handleLogin}) {
+function Login({handleLogin, error}) {
 
     const [data, setData] = React.useState({
         email: '',
@@ -42,6 +42,7 @@ function Login({handleLogin}) {
                     name={'signin'}
                     onSubmit={handleSubmit}
                     button={'Войти'}
+                    errorText={error}
                     >
                         <p className="form__input-name">E-mail</p>
                         <input className="form__input"

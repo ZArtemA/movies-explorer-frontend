@@ -31,6 +31,7 @@ const [movies, setMovies] = useState([]);//Поиск по фильмам
 const [savedMovies, setSavedMovies] = useState([]);//Все сохраненные фильмы
 const [findSavedMovies, setFindSavedMovies] = useState([]);//Поиск по сохраненным фильмам
 const [preloader, setPreloader] = useState(false);//Прелоадер крутится - загрузка мутится
+const [errorText, setErrorText] = useState({text: ""});
 
 function handleCheckbox() {
   setCheckbox(!checkbox);
@@ -46,11 +47,11 @@ function handleEditBtnClick() {
 function closeAll() {
   setHeaderMenu(false)
   setEditForm(false)
+  setErrorText({text: ""})
 }
 
 function handleRegister(email, password, name) {
   MainApi.register(email, password, name)
-  console.log(email, password, name)
     .then((res) => {
       if (res) {handleLogin(email, password);
         console.log(res);
@@ -58,11 +59,12 @@ function handleRegister(email, password, name) {
       }
     })
     .then(() => history.push('/movies'))
-    .catch((err) => {
-      if (err.status === 409) {
-        console.log('Такой email уже существует');
-      } else {
-        console.log('Что-то пошло не так! Попробуйте ещё раз.');
+    .catch(error => {
+      if (error === 409) {
+        setErrorText({text: "Такой email уже существует"});
+      } 
+      else {
+        setErrorText({text: "Что-то пошло не так!"});
       }
     });
 }
@@ -70,11 +72,10 @@ function handleRegister(email, password, name) {
 
 function handleLogin({ email, password }) {
   MainApi.authorize(email, password)
-    .then((token) => {
-      console.log(token)
-      if (token) {
-        setUserData({ email: email, password: password, })
-        console.log(email, password)
+    .then((res) => {
+      console.log(res)
+      if (res) {
+        tokenCheck()
         setLoggedIn({
           loggedIn: true
         });
@@ -85,36 +86,36 @@ function handleLogin({ email, password }) {
     })
     .catch(error => {
       if (error === 401) {
-        return error.message;
+        setErrorText({text: "Неправильные почта или пароль"})
       }
       else {
-        return error.message;
+        setErrorText({text: "Что-то пошло не так!"});
       }
     });
 }
 
-function handleUpdateUser(userData) {
-  MainApi.patchPersonInfo(userData, localStorage.getItem('token'))
+function handleUpdateUser({ email, name }) {
+  MainApi.patchPersonInfo(name, email)
     .then((result) => {
       setUserData({
         name: result.name,
         email: result.email,
       })
       closeAll();
+      console.log(result);
     })
-    .catch((error) => { 
+    .catch(error => { 
       if (error === 409) {
-        return console.log(`Такой email уже зарегистрирован`);
+        setErrorText({text: "Такой email уже зарегистрирован"});
       }
       else {
-      console.log(`Что-то пошло не так!`);}
+      setErrorText({text: "Что-то пошло не так!"});
+    }
     });
 }
 
 function tokenCheck() {
   if (document.cookie) {
-    const token = document.cookie.replace('jwt=', '');
-    console.log(token);
     MainApi.checkToken().then((res) => {
       console.log('TokenChecked');
       if (res) {
@@ -122,7 +123,6 @@ function tokenCheck() {
           loggedIn: true,
         });
         setUserData({ email: res.email, name: res.name });
-        console.log(res);
       };
         /*if (!localStorage.getItem("SAVED_MOVIES_ARRAY")) {
           MainApi.getInitialCards().then((result) => {
@@ -260,7 +260,12 @@ function deleteMovie(movie) {
                 <Footer />
               </Route>
               <ProtectedRoute path="/movies" loggedIn={loggedIn}>
-              <Header />
+              <Header 
+            loggedIn={loggedIn}
+            isOpen={headerMenu}
+            onClose={closeAll}
+            onMenuBtnClick={() =>{handleNavMenuClick()}}
+            />
                 <Movies
                 handleCheckbox={handleCheckbox}
                 checkbox={checkbox}
@@ -273,7 +278,12 @@ function deleteMovie(movie) {
                 <Footer />
               </ProtectedRoute>
               <ProtectedRoute path="/saved-movies" loggedIn={loggedIn}>
-              <Header />
+              <Header 
+            loggedIn={loggedIn}
+            isOpen={headerMenu}
+            onClose={closeAll}
+            onMenuBtnClick={() =>{handleNavMenuClick()}}
+            />
                 <SavedMovies 
                 handleCheckbox={handleCheckbox}
                 checkbox={checkbox}
@@ -285,24 +295,32 @@ function deleteMovie(movie) {
                 <Footer />
               </ProtectedRoute>
               <ProtectedRoute path="/profile" loggedIn={loggedIn}>
-              <Header />
+              <Header 
+            loggedIn={loggedIn}
+            isOpen={headerMenu}
+            onClose={closeAll}
+            onMenuBtnClick={() =>{handleNavMenuClick()}}
+            />
                 <Profile
             userData={userData}
             isOpen={editForm}
             onEditBtnClick={handleEditBtnClick}
             onSave={handleUpdateUser}
             onClose={closeAll}
-            onSignOut={()=>{LogOut()}}
+            onLogOut={()=>{LogOut()}}
+            error={errorText}
                 />
               </ProtectedRoute>
               <Route path="/signup">
                 <Register
                 handleRegister={handleRegister}
+                error={errorText}
                 />
               </Route>
               <Route path="/signin">
                 <Login
                 handleLogin={handleLogin}
+                error={errorText}
                 />
               </Route>
               <Route path="*">

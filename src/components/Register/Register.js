@@ -6,7 +6,7 @@ import './Register.css';
 
 import { PAGE_LOGIN, INPUT_ERROR } from '../../utils/constants';
 
-function Register({handleRegister}) {
+function Register({handleRegister, error}) {
 
     const [data, setData] = React.useState({
         email: '',
@@ -40,6 +40,7 @@ function Register({handleRegister}) {
      name={'signup'}
      onSubmit={handleSubmit}
      button={'Зарегистрироваться'}
+     errorText={error}
     >  
                 <p className="form__input-name">Имя</p>
                 <input className="form__input"

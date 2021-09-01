@@ -2,25 +2,23 @@ import React from 'react';
 import './Profile.css';
 import Form from '../Form/Form';
 import { INPUT_ERROR } from '../../utils/constants';
+import FormValidation from '../Validation/Validation';
 
 function Profile(props) {
 
-    const [data, setData] = React.useState({
-        email: '',
-        name: '',
-    });
+    const formValidation = FormValidation();
 
-      function handleChange(e) {
-        setData({[e.target.name]: e.target.value});
-  }
+    const {email, name} = formValidation.data;
+
 
     function handleSubmit(e) {
         e.preventDefault();
-        const { email, name } = data;
+        const { email, name } = formValidation.data;
         if (!email || !name) {
             return;
         }
-        props.onSave({ email: email, name: name })
+        props.onSave({ email: email, name: name });
+        formValidation.resetForm();
     }
     
 
@@ -31,7 +29,7 @@ function Profile(props) {
                 <p className="profile__line">Имя<span className="profile__line_userinfo">{props.userData.name}</span></p>
                 <p className="profile__line">Почта<span className="profile__line_userinfo">{props.userData.email}</span></p>
                 <p className="profile__btn" onClick={props.onEditBtnClick}>Редактировать</p>
-                <p className="profile__btn profile__btn_quit">Выйти из аккаунта</p>
+                <p className="profile__btn profile__btn_quit" onClick={props.onLogOut}>Выйти из аккаунта</p>
             </div>
             <div className={`profile__form ${props.isOpen ? 'profile__form_opened' : ''}`}>
                 <Form
@@ -39,24 +37,31 @@ function Profile(props) {
                     name={'user'}
                     onSubmit={handleSubmit}
                     button={'Сохранить'}
+                    errorText={props.error}
                     >
                         <p className="form__input-name" type="text" maxLength="40" minLength="5">Имя</p>
                         <input className="form__input"
+                        id="name-input"
+                        name="name"
                         type="text"
                         maxLength="40"
                         minLength="2"
-                        value={data.name}
-                        onChange={handleChange}
-                        placeholder={props.userData.name} />
+                        onChange={formValidation.handleChange}
+                        placeholder={props.userData.name}
+                        value={name || ''}
+                        />
                         <span className="form__input-error">{INPUT_ERROR}</span>
                         <p className="form__input-name">Почта</p>
                         <input className="form__input"
+                        id="email-input"
                         type="email"
+                        name="email"
                         maxLength="100"
                         minLength="5"
-                        value={data.email}
-                        onChange={handleChange}
-                        placeholder={props.userData.email} />
+                        onChange={formValidation.handleChange}
+                        placeholder={props.userData.email}
+                        value={email || ''}
+                         />
                         <span className="form__input-error">{INPUT_ERROR}</span>
                         <p className="profile__btn-cancel" onClick={props.onClose}>Отмена</p>
                 </Form>

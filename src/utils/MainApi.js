@@ -9,8 +9,7 @@ class MainApi {
         if (response.ok) {
             return response.json();
         }
-        console.log(response.status);
-        return Promise.reject(new Error(`Ошибка: ${response.status}`));
+        return Promise.reject(response.status);
     }
 
       
@@ -83,6 +82,7 @@ patchPersonInfo(name, email) {
             email: email
         })
     }).then(response => {
+      console.log(response);
         return this._getResJson(response);
     });
 }
@@ -151,7 +151,6 @@ patchPersonInfo(name, email) {
           'Access-Control-Allow-Credentials': true,
         }
       }).then(response => {
-        console.log(response);
         return this._getResJson(response);
       })
     };
