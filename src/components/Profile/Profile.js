@@ -1,7 +1,6 @@
 import React from 'react';
 import './Profile.css';
 import Form from '../Form/Form';
-import { INPUT_ERROR } from '../../utils/constants';
 import FormValidation from '../Validation/Validation';
 
 function Profile(props) {
@@ -18,6 +17,11 @@ function Profile(props) {
             return;
         }
         props.onSave({ email: email, name: name });
+        formValidation.resetForm();
+    }
+
+    function handleCancel() {
+        props.onClose();
         formValidation.resetForm();
     }
     
@@ -38,6 +42,7 @@ function Profile(props) {
                     onSubmit={handleSubmit}
                     button={'Сохранить'}
                     errorText={props.error}
+                    isValid={formValidation.isValid}
                     >
                         <p className="form__input-name" type="text" maxLength="40" minLength="5">Имя</p>
                         <input className="form__input"
@@ -49,8 +54,10 @@ function Profile(props) {
                         onChange={formValidation.handleChange}
                         placeholder={props.userData.name}
                         value={name || ''}
+                        pattern="[A-Za-zА-Яа-яЁё0-9\s-]{2,20}"
+                        required
                         />
-                        <span className="form__input-error">{INPUT_ERROR}</span>
+                        <span name="name" className="form__input-error">{formValidation.errors.name}</span>
                         <p className="form__input-name">Почта</p>
                         <input className="form__input"
                         id="email-input"
@@ -61,9 +68,11 @@ function Profile(props) {
                         onChange={formValidation.handleChange}
                         placeholder={props.userData.email}
                         value={email || ''}
+                        pattern="^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$"
+                        required
                          />
-                        <span className="form__input-error">{INPUT_ERROR}</span>
-                        <p className="profile__btn-cancel" onClick={props.onClose}>Отмена</p>
+                        <span name="email" className="form__input-error">{formValidation.errors.email}</span>
+                        <p className="profile__btn-cancel" onClick={handleCancel}>Отмена</p>
                 </Form>
             </div>
         </section>

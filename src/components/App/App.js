@@ -115,7 +115,6 @@ function handleUpdateUser({ email, name }) {
 }
 
 function tokenCheck() {
-  if (document.cookie) {
     MainApi.checkToken().then((res) => {
       console.log('TokenChecked');
       if (res) {
@@ -149,7 +148,6 @@ function tokenCheck() {
         MainApi.quit();
         history.push("/");
       })
-  }
 }
 
 

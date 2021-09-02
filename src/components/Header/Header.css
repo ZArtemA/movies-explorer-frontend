@@ -9,6 +9,11 @@
     line-height: 18px;
 }
 
+.header button:hover{
+    opacity: 70%;
+    cursor: pointer;
+}
+
 .header_unauth{
     background-color: #132f40;
 }
