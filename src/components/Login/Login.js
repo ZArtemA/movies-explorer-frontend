@@ -3,33 +3,25 @@ import { Link } from 'react-router-dom';
 import Form from '../Form/Form';
 import Logo from '../Logo/Logo';
 import "./Login.css";
-import { PAGE_REGISTRATION, INPUT_ERROR } from '../../utils/constants';
+import { PAGE_REGISTRATION } from '../../utils/constants';
+import FormValidation from '../Validation/Validation';
 
 function Login({handleLogin, error}) {
 
-    const [data, setData] = React.useState({
-        email: '',
-        password: '',
-    });
+    const formValidation = FormValidation();
 
-
-    function handleChange(e) {
-        const { name, value } = e.target;
-        setData({
-            ...data,
-            [name]: value
-        })
-    }
+    const {email, password} = formValidation.data;
 
 
 
     function handleSubmit(e) {
         e.preventDefault();
-        const { email, password } = data;
-        if (!data.email || !data.password) {
+        const { email, password } = formValidation.data;
+        if (!email || !password) {
             return;
         }
-        handleLogin({ email: email, password: password })
+        handleLogin({ email: email, password: password });
+        formValidation.resetForm();
     }
 
 
@@ -43,6 +35,7 @@ function Login({handleLogin, error}) {
                     onSubmit={handleSubmit}
                     button={'Войти'}
                     errorText={error}
+                    isValid={formValidation.isValid}
                     >
                         <p className="form__input-name">E-mail</p>
                         <input className="form__input"
@@ -51,24 +44,27 @@ function Login({handleLogin, error}) {
                         name="email"
                         maxLength="100"
                         minLength="5"
+                        onChange={formValidation.handleChange}
                         placeholder="Введите почту"
-                        onChange={handleChange}
-                        autoComplete="off"
+                        value={email || ''}
+                        pattern="^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$"
+                        required
                          />
-                         
-                        <span className="form__input-error">{INPUT_ERROR}</span>
-                        <p className="form__input-name">Пароль</p>
-                        <input className="form__input"
-                        id="password-input"
-                        placeholder="Введите пароль"
-                        name="password"
-                        type="password"
-                        maxLength="40"
-                        minLength="5"
-                        onChange={handleChange}
-                        autoComplete="off"
+                    <span className="form__input-error">{formValidation.errors.email}</span>
+                    <p className="form__input-name">Пароль</p>
+                    <input className="form__input"
+                            id="password-input"
+                            type="password"
+                            name="password"
+                            maxLength="20" 
+                            minLength="5"
+                            placeholder="Введите пароль"
+                            onChange={formValidation.handleChange}
+                            autoComplete="off"
+                            value={password || ''}
+                            required
                          />
-                        <span className="form__input-error">{INPUT_ERROR}</span>
+                    <span className="form__input-error">{formValidation.errors.password}</span>
                     </Form>
                 <p className="login__link">Ещё не зарегистрированы? <Link to={PAGE_REGISTRATION}>Регистрация</Link></p>
         </section>

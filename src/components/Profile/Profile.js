@@ -44,7 +44,7 @@ function Profile(props) {
                     errorText={props.error}
                     isValid={formValidation.isValid}
                     >
-                        <p className="form__input-name" type="text" maxLength="40" minLength="5">Имя</p>
+                        <p className="form__input-name">Имя</p>
                         <input className="form__input"
                         id="name-input"
                         name="name"
