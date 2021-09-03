@@ -33,6 +33,7 @@ const [findSavedMovies, setFindSavedMovies] = useState([]);//Поиск по с�
 const [preloader, setPreloader] = useState(false);//Прелоадер крутится - загрузка мутится
 const [errorText, setErrorText] = useState({text: ""});
 
+
 function handleCheckbox() {
   setCheckbox(!checkbox);
 }
@@ -79,6 +80,7 @@ function handleLogin({ email, password }) {
         setLoggedIn({
           loggedIn: true
         });
+        localStorage.setItem('loggedIn', 'true');
         history.push("/movies");
         console.log("Функция логина")
         return loggedIn;
@@ -122,6 +124,7 @@ function tokenCheck() {
           loggedIn: true,
         });
         setUserData({ email: res.email, name: res.name });
+        localStorage.setItem('loggedIn', 'true');
       };
         /*if (!localStorage.getItem("SAVED_MOVIES_ARRAY")) {
           MainApi.getInitialCards().then((result) => {
@@ -144,24 +147,27 @@ function tokenCheck() {
         };*/
     })
       .catch((error) => {
-        console.log(`Ошибка проверки токена: ${error}`)
+        if (error===401){
+        console.log(`Токен не верен`)
         MainApi.quit();
-        history.push("/");
+        }
+        else {
+          console.log(`Ошибка проверки токена: ${error}`)
+        }
       })
 }
-
-
 
 useEffect(() => {
   tokenCheck();
 }, []);
 
+
 function LogOut() {
   MainApi.quit();
   setLoggedIn(false);
-  localStorage.removeItem('token');
   localStorage.removeItem('moviesFind');
   localStorage.removeItem('savedMoviesFind');
+  localStorage.removeItem('loggedIn');
   setUserData({ email: '', name: '', })
   history.push('/');
 }
