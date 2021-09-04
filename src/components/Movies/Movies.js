@@ -3,11 +3,16 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 
-function Movies({ handleCheckbox, checkbox, movies, onSubmit, onSave, onDelete, preloader }) {
+function Movies({ handleCheckbox, checkbox, movies, onSave, onSubmit, onDelete, preloader, error }) {
 return (
     <section className="movies">
       <div className="movies__container">
-        <SearchForm handleCheckbox={handleCheckbox} checkbox={checkbox} onSubmit={onSubmit} />
+        <SearchForm
+        handleCheckbox={handleCheckbox}
+        checkbox={checkbox}
+        onSubmit={onSubmit}
+        error={error}
+         />
         {preloader && (<Preloader />)}
         <MoviesCardList
         movies={movies}

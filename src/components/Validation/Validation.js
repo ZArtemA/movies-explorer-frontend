@@ -7,11 +7,14 @@ function errorInputText (name, value){
   if ((name === 'password' ||  name === 'name' || name === 'email') && !value) {
       errors = 'Вы пропустили это поле.';
     }
-  else if ((name === 'password' || name === 'email') && value.length < 6) {
-      errors = 'Длина должна быть более 5 символов';
+    else if (name === 'password' && value.length < 5 ) {
+      errors = 'Длина должна быть от 5 символов';
+    }
+    else if (name === 'email' && value.length < 5) {
+      errors = 'Длина должна быть от 5 символов';
     }
     else if (name === 'name' && value.length < 2) {
-      errors = 'Длина должна быть более 2 символов';
+      errors = 'Длина должна быть от 2 символов';
     }
     else if (name === 'name' && !/[A-Za-zА-Яа-яЁё0-9\s-]{2,20}$/.test(value)) {
       errors = 'Недопустимые символы';
@@ -33,11 +36,11 @@ export default function FormValidation() {
     const name = target.name;
     const value = target.value;
     setData({...data, [name]: value});
+    setInputValid({...inputValid, [name]: target.checkValidity()});
     setErrors({...errors, [name]: errorInputText(name, value)});
-    if (errorInputText(name, value) !== 0){setInputValid(false)}
     setIsValid(target.closest('form').checkValidity());
-    console.log(inputValid);
   };
+
 
   const resetForm = useCallback(
     (newValues = {}, newErrors = {}, newIsValid = false, newInputValid = true) => {

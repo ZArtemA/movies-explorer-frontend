@@ -16,7 +16,6 @@ function Register({handleRegister, error}) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        const { email, password, name } = formValidation.data;
         if (!email || !name || !password) {
             return;
         }
@@ -38,25 +37,25 @@ function Register({handleRegister, error}) {
      isValid={formValidation.isValid}
     >  
                 <p className="form__input-name">Имя</p>
-                <input className="form__input"
+                <input className={`form__input ${formValidation.inputValid.name===undefined ? '' : (!formValidation.inputValid.name ? "form__input_invalid" : '')}`}
                     id="name-input"
                     name="name"
                     type="text"
-                    maxLength="40"
+                    maxLength="30"
                     minLength="2"
                     onChange={formValidation.handleChange}
-                    placeholder="Ввудите имя"
+                    placeholder="Введите имя"
                     value={name || ''}
                     pattern="[A-Za-zА-Яа-яЁё0-9\s-]{2,20}"
                     required
                     />
                 <span className="form__input-error">{formValidation.errors.name}</span>
                 <p className="form__input-name">E-mail</p>
-                <input className="form__input"
+                <input className={`form__input ${formValidation.inputValid.email===undefined ? '' : (!formValidation.inputValid.email ? "form__input_invalid" : '')}`}
                     id="email-input"
                     type="email"
                     name="email"
-                    maxLength="100"
+                    maxLength="60"
                     minLength="5"
                     onChange={formValidation.handleChange}
                     placeholder="Введите почту"
@@ -66,7 +65,7 @@ function Register({handleRegister, error}) {
                         />
                 <span className="form__input-error">{formValidation.errors.email}</span>
                 <p className="form__input-name">Пароль</p>
-                <input className="form__input"
+                <input className={`form__input ${formValidation.inputValid.email===undefined ? '' : (!formValidation.inputValid.password ? "form__input_invalid" : '')}`}
                 id="password-input"
                 type="password"
                 name="password"

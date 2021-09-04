@@ -16,7 +16,6 @@ function Login({handleLogin, error}) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        const { email, password } = formValidation.data;
         if (!email || !password) {
             return;
         }
@@ -38,11 +37,11 @@ function Login({handleLogin, error}) {
                     isValid={formValidation.isValid}
                     >
                         <p className="form__input-name">E-mail</p>
-                        <input className="form__input"
+                        <input className={`form__input ${formValidation.inputValid.email===undefined ? '' : (!formValidation.inputValid.email ? "form__input_invalid" : '')}`}
                         id="email-input"
                         type="email"
                         name="email"
-                        maxLength="100"
+                        maxLength="60"
                         minLength="5"
                         onChange={formValidation.handleChange}
                         placeholder="Введите почту"
@@ -52,7 +51,7 @@ function Login({handleLogin, error}) {
                          />
                     <span className="form__input-error">{formValidation.errors.email}</span>
                     <p className="form__input-name">Пароль</p>
-                    <input className="form__input"
+                    <input className={`form__input ${formValidation.inputValid.password===undefined ? '' : (!formValidation.inputValid.password ? "form__input_invalid" : '')}`}
                             id="password-input"
                             type="password"
                             name="password"

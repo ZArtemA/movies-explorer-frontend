@@ -67,6 +67,7 @@ function handleRegister(email, password, name) {
       else {
         setErrorText({text: "Что-то пошло не так!"});
       }
+      setTimeout(()=>{setErrorText({text: ""})}, 5000);
     });
 }
 
@@ -74,25 +75,24 @@ function handleRegister(email, password, name) {
 function handleLogin({ email, password }) {
   MainApi.authorize(email, password)
     .then((res) => {
-      console.log(res)
       if (res) {
-        tokenCheck()
         setLoggedIn({
           loggedIn: true
         });
         localStorage.setItem('loggedIn', 'true');
         history.push("/movies");
         console.log("Функция логина")
-        return loggedIn;
       }
+      tokenCheck();
     })
     .catch(error => {
       if (error === 401) {
-        setErrorText({text: "Неправильные почта или пароль"})
+        setErrorText({text: "Неправильные почта или пароль"});
       }
       else {
         setErrorText({text: "Что-то пошло не так!"});
       }
+      setTimeout(()=>{setErrorText({text: ""})}, 5000);
     });
 }
 
@@ -113,10 +113,12 @@ function handleUpdateUser({ email, name }) {
       else {
       setErrorText({text: "Что-то пошло не так!"});
     }
+    setTimeout(()=>{setErrorText({text: ""})}, 5000);
     });
 }
 
 function tokenCheck() {
+  if (localStorage.getItem('loggedIn')) {
     MainApi.checkToken().then((res) => {
       console.log('TokenChecked');
       if (res) {
@@ -155,6 +157,7 @@ function tokenCheck() {
           console.log(`Ошибка проверки токена: ${error}`)
         }
       })
+    }
 }
 
 useEffect(() => {
@@ -165,8 +168,8 @@ useEffect(() => {
 function LogOut() {
   MainApi.quit();
   setLoggedIn(false);
-  localStorage.removeItem('moviesFind');
-  localStorage.removeItem('savedMoviesFind');
+  localStorage.removeItem('MOVIES_ARRAY');
+  localStorage.removeItem('MOVIES_FIND');
   localStorage.removeItem('loggedIn');
   setUserData({ email: '', name: '', })
   history.push('/');
@@ -174,6 +177,7 @@ function LogOut() {
 
 
 function getAllMovies() {
+  console.log("Обращение за фильмами");
   MoviesApi
     .getMovies()
     .then((res) => {
@@ -192,26 +196,49 @@ function getAllMovies() {
           id: item.id,
         };
       });
-
+      console.log("Запрос к базе");
+      console.log(moviesArray);
       localStorage.setItem("MOVIES_ARRAY", JSON.stringify(moviesArray));
-      setAllMovies(moviesArray);
+    }).then(()=>{
+      console.log('121')
+      console.log(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
     })
     .catch(() => {
       localStorage.removeItem("MOVIES_ARRAY");
-      console.log("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз");
+      console.log("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.");
+      setErrorText({text: "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."});
+      setTimeout(()=>{setErrorText({text: ""})}, 5000);
     });
 }
 
-
-
 function moviesSearch(request){
+  if (!request){
+    setErrorText({text: "Нужно ввести ключевое слово"});
+    setTimeout(()=>{setErrorText({text: ""})}, 5000);
+  }
+  else {
+  console.log('Функция поиска')
   setPreloader(true);
+  if (!localStorage.getItem("MOVIES_ARRAY")){
+    getAllMovies()
+      console.log('122')
+      setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
+    console.log(allMovies);
+  }
+  else{
+  setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
+  console.log(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
+  console.log(allMovies);
+  console.log('111');
+}
   const newArr = allMovies.filter((item) => {
     return item.nameRU.includes(request) || item.nameEN.includes(request) || item.director.includes(request) ||item.country.includes(request)
   })
-  localStorage.setItem('moviesFind', JSON.stringify(newArr));
-  setPreloader(false);
+  localStorage.setItem('MOVIES_FIND', JSON.stringify(newArr));
   setMovies(newArr);
+  setPreloader(false);
+  console.log('Поиск фильмов')
+}
 }
 
 
@@ -278,6 +305,7 @@ function deleteMovie(movie) {
                 onSave={addMovie}
                 onDelete={deleteMovie}
                 preloader={preloader}
+                error={errorText}
                  />
                 <Footer />
               </ProtectedRoute>
@@ -295,6 +323,7 @@ function deleteMovie(movie) {
                 onSubmit={savedMoviesSearch}
                 onDelete={deleteMovie}
                 preloader={preloader}
+                error={errorText}
                 />
                 <Footer />
               </ProtectedRoute>

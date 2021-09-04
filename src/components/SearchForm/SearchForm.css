@@ -60,6 +60,16 @@
     padding: 0;
 }
 
+.search-form__error{
+    font-size: 11px;
+    line-height: 13px;
+    text-align: center;
+    margin-bottom: 20px;
+    height: 14px;
+    color: #FF004C;
+    display: block;
+}
+
 @media screen and (max-width: 1110px) {
 
     .search-form{

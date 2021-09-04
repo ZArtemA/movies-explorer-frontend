@@ -9,10 +9,8 @@ function Profile(props) {
 
     const {email, name} = formValidation.data;
 
-
     function handleSubmit(e) {
         e.preventDefault();
-        const { email, name } = formValidation.data;
         if (!email || !name) {
             return;
         }
@@ -45,25 +43,25 @@ function Profile(props) {
                     isValid={formValidation.isValid}
                     >
                         <p className="form__input-name">Имя</p>
-                        <input className="form__input"
+                        <input className={`form__input ${formValidation.inputValid.name===undefined ? '' : (!formValidation.inputValid.name ? "form__input_invalid" : '')}`}
                         id="name-input"
                         name="name"
                         type="text"
-                        maxLength="40"
+                        maxLength="30"
                         minLength="2"
                         onChange={formValidation.handleChange}
                         placeholder={props.userData.name}
                         value={name || ''}
-                        pattern="[A-Za-zА-Яа-яЁё0-9\s-]{2,20}"
+                        pattern="[A-Za-zА-Яа-яЁё0-9\s-]{2,30}"
                         required
                         />
                         <span name="name" className="form__input-error">{formValidation.errors.name}</span>
                         <p className="form__input-name">Почта</p>
-                        <input className="form__input"
+                        <input className={`form__input ${formValidation.inputValid.email===undefined ? '' : (!formValidation.inputValid.email ? "form__input_invalid" : '')}`}
                         id="email-input"
                         type="email"
                         name="email"
-                        maxLength="100"
+                        maxLength="60"
                         minLength="5"
                         onChange={formValidation.handleChange}
                         placeholder={props.userData.email}
