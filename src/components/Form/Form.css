@@ -63,6 +63,15 @@
     display: block;
 }
 
+.form__success-message{
+    color: green;
+    font-size: 11px;
+    line-height: 13px;
+    text-align: center;
+    height: 14px;
+    display: block;
+}
+
 .form__button{
     position: absolute;
     bottom: 0;

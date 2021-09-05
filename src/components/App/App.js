@@ -31,7 +31,9 @@ const [savedMovies, setSavedMovies] = useState([]);//Все сохраненны
 const [findSavedMovies, setFindSavedMovies] = useState([]);//Поиск по сохраненным фильмам
 const [preloader, setPreloader] = useState(false);//Прелоадер крутится - загрузка мутится
 const [errorText, setErrorText] = useState({text: ""});
+const [successText, setSuccessText] = useState({text: ""});
 const [findNothing, setFindNothing] = useState(false);
+const [addCards, setAddCards] = useState(setCountCard('step'));
 const history = useHistory();
 
 function handleCheckbox() {
@@ -51,6 +53,10 @@ function closeAll() {
   setErrorText({text: ""})
 }
 
+useEffect(() => {
+  window.addEventListener("resize", setCountCard);
+}, []);
+
 function handleRegister(email, password, name) {
   MainApi.register(email, password, name)
     .then((res) => {
@@ -67,7 +73,7 @@ function handleRegister(email, password, name) {
       else {
         setErrorText({text: "Что-то пошло не так!"});
       }
-      setTimeout(()=>{setErrorText({text: ""})}, 5000);
+      setTimeout(()=>{setErrorText({text: ""})}, 4000);
     });
 }
 
@@ -92,7 +98,7 @@ function handleLogin({ email, password }) {
       else {
         setErrorText({text: "Что-то пошло не так!"});
       }
-      setTimeout(()=>{setErrorText({text: ""})}, 5000);
+      setTimeout(()=>{setErrorText({text: ""})}, 4000);
     });
 }
 
@@ -103,8 +109,9 @@ function handleUpdateUser({ email, name }) {
         name: result.name,
         email: result.email,
       })
-      closeAll();
-      console.log(result);
+      setSuccessText({text: "Данные изменены"});
+      setTimeout(()=>{closeAll()}, 2000);
+      setTimeout(()=>{setSuccessText({text: ""})}, 2000);
     })
     .catch(error => { 
       if (error === 409) {
@@ -113,7 +120,7 @@ function handleUpdateUser({ email, name }) {
       else {
       setErrorText({text: "Что-то пошло не так!"});
     }
-    setTimeout(()=>{setErrorText({text: ""})}, 5000);
+    setTimeout(()=>{setErrorText({text: ""})}, 4000);
     });
 }
 
@@ -190,7 +197,7 @@ function getAllMovies() {
       localStorage.removeItem("MOVIES_ARRAY");
       console.log("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.");
       setErrorText({text: "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."});
-      setTimeout(()=>{setErrorText({text: ""})}, 5000);
+      setTimeout(()=>{setErrorText({text: ""})}, 4000);
     });
 }
 
@@ -203,24 +210,19 @@ function requestConverter(request){
     return result;
   } else {
     setErrorText({text: "Нужно ввести ключевое слово"});
-    setTimeout(()=>{setErrorText({text: ""})}, 5000);
-    console.log('Error');
+    setTimeout(()=>{setErrorText({text: ""})}, 4000);
     setPreloader(false);
     return}
 }
 
 useEffect(() => {
   setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
-
 }, []);
 
 function arrIterating(array, str){
-  if (str !==null){
+  if (str !==null  && array !==undefined){
     for (let i = 0; i < array.length; i++) {
       let res;
-      console.log(array)
-      console.log(array[i])
-      console.log(str + array[i] + str.toLowerCase().includes(array[i]))
       res = str.toLowerCase().includes(array[i]);
       if (res === true){
         return res
@@ -234,41 +236,51 @@ function arrIterating(array, str){
 }
 
 
+function Search(movie, request){
+  const Arr = movie.filter((item) => {
+    return (arrIterating(request, item.nameRU) || arrIterating(request, item.nameEN) || arrIterating(request, item.director) || arrIterating(request, item.country))
+  })
+  return Arr;
+}
+
 
 function moviesSearch(request){
-  let newArr;
+  console.log(request)
+  if (Object.keys(request).length !== 0){
+    setPreloader(true);
   const handleRequest = requestConverter(request);
-  setPreloader(true);
   if (!localStorage.getItem("MOVIES_ARRAY")){
     getAllMovies()
-    console.log('1')
-    console.log(allMovies)
+    console.log('22')
     setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
-    console.log(allMovies)
-    console.log('2')
   }
   else {
     setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
+    console.log('33')
   }
-  console.log(handleRequest)
-
-  newArr = allMovies.filter((item) => {
-    console.log(arrIterating(handleRequest, item.nameRU) || arrIterating(handleRequest, item.nameEN) || arrIterating(handleRequest, item.director) || arrIterating(handleRequest, item.country))
-
-    return (arrIterating(handleRequest, item.nameRU) || arrIterating(handleRequest, item.nameEN) || arrIterating(handleRequest, item.director) || arrIterating(handleRequest, item.country))
-  })
-  console.log(newArr)
-  if (newArr.length!==0){
-  localStorage.setItem('MOVIES_FIND', JSON.stringify(newArr));
-  setMovies(newArr);
-  console.log('Вызов функции поиска')
-  setPreloader(false);
-  }
-  else {
-  localStorage.removeItem('MOVIES_FIND');
-  setFindNothing(true);
-  setPreloader(false);
-  }
+  const newArr = Search(allMovies, handleRequest);
+    if (newArr.length!==0){
+        localStorage.setItem('MOVIES_FIND', JSON.stringify(newArr));
+        setMovies(newArr);
+        setFindNothing(false);
+        console.log('Вызов функции поиска')
+        console.log(newArr)
+        console.log(movies)
+        console.log('MOVIES_FIND', JSON.stringify(newArr))
+        console.log(JSON.parse(localStorage.getItem("MOVIES_FIND")))
+        setPreloader(false);
+      }
+      else {
+        setMovies([]);
+        localStorage.removeItem('MOVIES_FIND');
+        setFindNothing(true);
+        setPreloader(false);
+      }
+    } else {
+      setErrorText({text: "Нужно ввести ключевое слово"});
+      setTimeout(()=>{setErrorText({text: ""})}, 4000);
+      console.log('error')
+      }
 }
 
 
@@ -306,6 +318,31 @@ function deleteMovie(movie) {
 }
 
 
+function setCountCard(string) {
+  let cardsArr = 0;
+  let addCards = 0;
+  const pageWidth = document.documentElement.scrollWidth;
+
+  if (pageWidth > 520) {
+    cardsArr = 7;
+    addCards = 7;
+  }
+  else {
+    cardsArr = 5;
+    addCards = 2;
+  }
+  if (string === 'step') {
+    return cardsArr
+  } else {
+    return addCards
+  }
+}
+
+
+function handleMoreButton() {
+  setAddCards(addCards + setCountCard('plus'));
+}
+
     return (
       <CurrentUserContext.Provider value={userData}>
         <>
@@ -338,6 +375,8 @@ function deleteMovie(movie) {
                 preloader={preloader}
                 error={errorText}
                 emptyResult={findNothing}
+                addCards={addCards}
+                handleMoreBtn={handleMoreButton}
                  />
                 <Footer />
               </ProtectedRoute>
@@ -375,6 +414,7 @@ function deleteMovie(movie) {
             onClose={closeAll}
             onLogOut={()=>{LogOut()}}
             error={errorText}
+            success={successText}
                 />
               </ProtectedRoute>
               <Route path="/signup">

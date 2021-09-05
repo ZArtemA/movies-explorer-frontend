@@ -40,6 +40,7 @@ function Profile(props) {
                     onSubmit={handleSubmit}
                     button={'Сохранить'}
                     errorText={props.error}
+                    successText={props.success}
                     isValid={formValidation.isValid}
                     >
                         <p className="form__input-name">Имя</p>

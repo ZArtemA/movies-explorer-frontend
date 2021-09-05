@@ -1,10 +1,10 @@
 import './More.css';
 
-function More() {
+function More(handleMoreBtn) {
 
     return (
         <div className="more">
-        <button className="more__btn">Ещё</button>
+        <button onClick={handleMoreBtn} className="more__btn">Ещё</button>
         </div>
     )
 }

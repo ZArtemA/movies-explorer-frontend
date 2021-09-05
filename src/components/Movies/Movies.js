@@ -2,7 +2,7 @@ import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function Movies({ handleCheckbox, checkbox, movies, onSave, onSubmit, onDelete, preloader, error, emptyResult }) {
+function Movies({ handleCheckbox, checkbox, movies, onSave, onSubmit, onDelete, preloader, error, emptyResult, addCards, handleMoreBtn }) {
 return (
     <section className="movies">
       <div className="movies__container">
@@ -18,6 +18,8 @@ return (
         onDelete={onDelete}
         emptyResult={emptyResult}
         preloader={preloader}
+        addCards={addCards}
+        handleMoreBtn={handleMoreBtn}
         />
       </div>
     </section>
