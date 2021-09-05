@@ -23,7 +23,9 @@ function SearchForm({ handleCheckbox, checkbox, onSubmit, error }) {
             <form className="search-form__box"
             id='search'
             name='search'
-            onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}
+            noValidate
+            >
                 <fieldset className="search-form__bar">
                     <input className="search-form__input" 
                     type="text"

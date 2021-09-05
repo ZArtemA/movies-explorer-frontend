@@ -19,7 +19,6 @@ function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);//Авторизован
   const [userData, setUserData] = useState({ email: '', name: '' });//Данные юзера
-  const history = useHistory();
 
 
 const [checkbox, setCheckbox] = useState(true);//Кнопка чекбокса короткометражек
@@ -32,7 +31,8 @@ const [savedMovies, setSavedMovies] = useState([]);//Все сохраненны
 const [findSavedMovies, setFindSavedMovies] = useState([]);//Поиск по сохраненным фильмам
 const [preloader, setPreloader] = useState(false);//Прелоадер крутится - загрузка мутится
 const [errorText, setErrorText] = useState({text: ""});
-
+const [findNothing, setFindNothing] = useState(false);
+const history = useHistory();
 
 function handleCheckbox() {
   setCheckbox(!checkbox);
@@ -128,25 +128,6 @@ function tokenCheck() {
         setUserData({ email: res.email, name: res.name });
         localStorage.setItem('loggedIn', 'true');
       };
-        /*if (!localStorage.getItem("SAVED_MOVIES_ARRAY")) {
-          MainApi.getInitialCards().then((result) => {
-          setSavedMovies(result)
-          localStorage.setItem("SAVED_MOVIES_ARRAY", JSON.stringify(result));
-        })
-        console.log('2-1');
-      } else {
-        setSavedMovies(JSON.parse(localStorage.getItem("SAVED_MOVIES_ARRAY")))
-        console.log('2-2');}
-        if (!localStorage.getItem("MOVIES_ARRAY")) {
-          getAllMovies();
-          console.log('3');
-        };
-        if (localStorage.getItem("MOVIES_SEARCH")) {
-          setMovies(JSON.parse(localStorage.getItem("MOVIES_SEARCH")))
-        };
-        if (localStorage.getItem("SAVED_MOVIES_SEARCH")) {
-          setFindSavedMovies(JSON.parse(localStorage.getItem("SAVED_MOVIES_SEARCH")))
-        };*/
     })
       .catch((error) => {
         if (error===401){
@@ -175,9 +156,14 @@ function LogOut() {
   history.push('/');
 }
 
+useEffect(() => {
+  if (localStorage.getItem("MOVIES_ARRAY")){
+    setAllMovies(localStorage.getItem("MOVIES_ARRAY"))
+  }
+}, []);
+
 
 function getAllMovies() {
-  console.log("Обращение за фильмами");
   MoviesApi
     .getMovies()
     .then((res) => {
@@ -196,12 +182,9 @@ function getAllMovies() {
           id: item.id,
         };
       });
-      console.log("Запрос к базе");
-      console.log(moviesArray);
+      console.log('3')
+      setAllMovies(moviesArray)
       localStorage.setItem("MOVIES_ARRAY", JSON.stringify(moviesArray));
-    }).then(()=>{
-      console.log('121')
-      console.log(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
     })
     .catch(() => {
       localStorage.removeItem("MOVIES_ARRAY");
@@ -211,35 +194,73 @@ function getAllMovies() {
     });
 }
 
-function moviesSearch(request){
-  if (!request){
+function requestConverter(request){
+  let result;
+  const space = ' ';
+  const string = (JSON.stringify(request).replace(/[{}:,."]/g, "").replace(/movie/g, "")).toLowerCase();
+  if (string.length > 0){
+    result = string.split(space);
+    return result;
+  } else {
     setErrorText({text: "Нужно ввести ключевое слово"});
     setTimeout(()=>{setErrorText({text: ""})}, 5000);
+    console.log('Error');
+    setPreloader(false);
+    return}
+}
+
+useEffect(() => {
+  setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
+
+}, []);
+
+function arrIterating(array, str){
+  for (let i = 0; i < array.length; i++) {
+    str.includes( array[i] );
+    console.log(str);
+    console.log(array[i]);
   }
-  else {
-  console.log('Функция поиска')
+}
+//includes ругает
+
+function moviesSearch(request){
+  let newArr;
+  const handleRequest = requestConverter(request);
   setPreloader(true);
   if (!localStorage.getItem("MOVIES_ARRAY")){
     getAllMovies()
-      console.log('122')
-      setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
-    console.log(allMovies);
+    console.log('1')
+    console.log(allMovies)
+    setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
+    console.log(allMovies)
+    console.log('2')
   }
-  else{
-  setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
-  console.log(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
-  console.log(allMovies);
-  console.log('111');
-}
-  const newArr = allMovies.filter((item) => {
-    return item.nameRU.includes(request) || item.nameEN.includes(request) || item.director.includes(request) ||item.country.includes(request)
+  else {
+    setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
+  }
+  console.log(handleRequest)
+
+
+  /*newArr = allMovies.filter((item) => {
+    return regex.test(item.nameRU) || regex.test(item.nameEN) || regex.test(item.director) || regex.test(item.country)
+  })*/
+  newArr = allMovies.filter((item) => {
+    return arrIterating(handleRequest, item.nameRU) || arrIterating(handleRequest, item.director) || arrIterating(handleRequest, item.country)
   })
+  console.log(newArr)
+  if (newArr.length!==0){
   localStorage.setItem('MOVIES_FIND', JSON.stringify(newArr));
   setMovies(newArr);
+  console.log('Вызов функции поиска')
   setPreloader(false);
-  console.log('Поиск фильмов')
+  }
+  else {
+  localStorage.removeItem('MOVIES_FIND');
+  setFindNothing(true);
+  setPreloader(false);
+  }
 }
-}
+
 
 
 function savedMoviesSearch(request){
@@ -306,6 +327,7 @@ function deleteMovie(movie) {
                 onDelete={deleteMovie}
                 preloader={preloader}
                 error={errorText}
+                emptyResult={findNothing}
                  />
                 <Footer />
               </ProtectedRoute>
@@ -324,6 +346,7 @@ function deleteMovie(movie) {
                 onDelete={deleteMovie}
                 preloader={preloader}
                 error={errorText}
+                emptyResult={findNothing}
                 />
                 <Footer />
               </ProtectedRoute>

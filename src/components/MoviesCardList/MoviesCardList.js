@@ -1,8 +1,11 @@
+import { useLocation } from 'react-router-dom';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import More from './More/More';
+import NotFound from './MoviesNotFound/MoviesNotFound';
+import Preloader from '../Preloader/Preloader';
 
-function MoviesCardList({ movies, onSave, onDelete }) {
+function MoviesCardList({ movies, onSave, onDelete, emptyResult, preloader }) {
 
 return (
 <section className="cards">
@@ -17,7 +20,9 @@ return (
         ))}
 
 </ul>
-    <More />
+    {preloader && (<Preloader />)}
+    {emptyResult && <NotFound />}
+    {useLocation().pathname==='/movies' && <More />}
 </section>
 )
 }
