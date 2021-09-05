@@ -215,13 +215,25 @@ useEffect(() => {
 }, []);
 
 function arrIterating(array, str){
-  for (let i = 0; i < array.length; i++) {
-    str.includes( array[i] );
-    console.log(str);
-    console.log(array[i]);
+  if (str !==null){
+    for (let i = 0; i < array.length; i++) {
+      let res;
+      console.log(array)
+      console.log(array[i])
+      console.log(str + array[i] + str.toLowerCase().includes(array[i]))
+      res = str.toLowerCase().includes(array[i]);
+      if (res === true){
+        return res
+      }
+    }
+    return 
+  }
+  else {
+    return
   }
 }
-//includes ругает
+
+
 
 function moviesSearch(request){
   let newArr;
@@ -240,12 +252,10 @@ function moviesSearch(request){
   }
   console.log(handleRequest)
 
-
-  /*newArr = allMovies.filter((item) => {
-    return regex.test(item.nameRU) || regex.test(item.nameEN) || regex.test(item.director) || regex.test(item.country)
-  })*/
   newArr = allMovies.filter((item) => {
-    return arrIterating(handleRequest, item.nameRU) || arrIterating(handleRequest, item.director) || arrIterating(handleRequest, item.country)
+    console.log(arrIterating(handleRequest, item.nameRU) || arrIterating(handleRequest, item.nameEN) || arrIterating(handleRequest, item.director) || arrIterating(handleRequest, item.country))
+
+    return (arrIterating(handleRequest, item.nameRU) || arrIterating(handleRequest, item.nameEN) || arrIterating(handleRequest, item.director) || arrIterating(handleRequest, item.country))
   })
   console.log(newArr)
   if (newArr.length!==0){
