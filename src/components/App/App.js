@@ -87,7 +87,6 @@ function handleLogin({ email, password }) {
         });
         localStorage.setItem('loggedIn', 'true');
         history.push("/movies");
-        console.log("Функция логина")
       }
       tokenCheck();
     })
@@ -127,7 +126,6 @@ function handleUpdateUser({ email, name }) {
 function tokenCheck() {
   if (localStorage.getItem('loggedIn')) {
     MainApi.checkToken().then((res) => {
-      console.log('TokenChecked');
       if (res) {
         setLoggedIn({
           loggedIn: true,
@@ -173,7 +171,6 @@ function LogOut() {
 
 
 function getAllMovies() {
-  console.log('Вызов функции поиска')
   MoviesApi
     .getMovies()
     .then((res) => {
@@ -189,10 +186,9 @@ function getAllMovies() {
           description: item.description,
           nameEN: item.nameEN,
           nameRU: item.nameRU,
-          id: item.id,
+          movieId: item.id,
         };
       });
-      console.log(moviesArray)
       setAllMovies(moviesArray)
       localStorage.setItem("MOVIES_ARRAY", JSON.stringify(moviesArray));
       return moviesArray;
@@ -294,8 +290,6 @@ function moviesSearch(request){
         setMovies(Search(allMovies, handleRequest));
         localStorage.removeItem('FIND_NOTHING')
         setFindNothing(false);
-        console.log(movies)
-        console.log(JSON.parse(localStorage.getItem("MOVIES_FIND")))
         setPreloader(false);
       }
       else {
@@ -303,7 +297,6 @@ function moviesSearch(request){
         localStorage.removeItem('MOVIES_FIND');
         setFindNothing(true);
         localStorage.setItem('FIND_NOTHING', true)
-        console.log(localStorage.getItem('FIND_NOTHING'))
         setPreloader(false);
       }    
   }, 3000)
@@ -342,11 +335,8 @@ function savedMoviesSearch(request){
       }
 }
 
-useEffect(() => {
-  localStorage.setItem('SAVED_MOVIES', JSON.stringify(savedMovies))
-}, [savedMovies])
-
 function addMovie(movie) {
+  console.log(movie)
   MainApi.addCard(movie)
     .then((newCard) => {
       setSavedMovies([...savedMovies, newCard]);
@@ -358,11 +348,10 @@ function addMovie(movie) {
 }
 
 function deleteMovie(movie) {
-  const id = savedMovies.find((card) => card.id === movie.id);
-  //console.log(movie)
+  const id = savedMovies.find((card) => card.movieId === movie.id).movieId;
   MainApi.removeCard(id)
     .then(() => {
-      setSavedMovies(savedMovies => savedMovies.filter((state) => state._id !== id));
+      setSavedMovies(savedMovies => savedMovies.filter((state) => state.id !== id));
     })
     .catch((error) => {
       console.log(`На сервере произошла ошибка: ${error}`);
@@ -370,8 +359,7 @@ function deleteMovie(movie) {
 }
 
 function isLiked(movie) {
-  console.log(savedMovies.some((item) => item.id === movie.id))
-  return savedMovies.some((item) => item.id === movie.id);
+  return savedMovies.some((item) => item.movieId === movie.id);
 }
 
 function setCountCard(string) {

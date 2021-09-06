@@ -12,13 +12,17 @@ function MoviesCard({ card, onSave, onDelete, isLiked }) {
     let pathname = useLocation().pathname;
 
 
-    function handleClick(evt) {
+    function handleHeartClick(evt) {
         evt.preventDefault();
         if (isLiked(card)){
             onDelete(card)
-            console.log(card)
         } onSave(card);
-        console.log(isLiked(card))
+      }
+
+      function handleCrossClick(evt) {
+        evt.preventDefault();
+        onDelete(card)
+        console.log(card)
       }
 
     return (
@@ -31,7 +35,7 @@ function MoviesCard({ card, onSave, onDelete, isLiked }) {
                     <button 
                     className={pathname === "/movies" ? `movie-card__btn-like ${isLiked(card) ? "movie-card__btn-like_active" : ""}` : "movie-card__btn-delete"}
                     type="button"
-                    onClick={handleClick}
+                    onClick={pathname === "/movies" ? handleHeartClick : handleCrossClick}
                     >
                     </button>
                     </div>

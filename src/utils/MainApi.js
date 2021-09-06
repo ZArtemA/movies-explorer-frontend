@@ -101,6 +101,7 @@ patchPersonInfo(name, email) {
 
 
     addCard(data) {
+      console.log(data)
         return fetch(`${this._url}/movies`, {
             method: 'POST',
             credentials: 'include',
@@ -116,7 +117,7 @@ patchPersonInfo(name, email) {
               image: data.image,
               trailer: data.trailer,
               thumbnail: data.image,
-              movieId: data.id,
+              movieId: data.movieId,
               nameRU: data.nameRU,
               nameEN: data.nameEN,
             })
