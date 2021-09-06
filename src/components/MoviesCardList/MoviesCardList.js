@@ -5,7 +5,7 @@ import More from './More/More';
 import NotFound from './MoviesNotFound/MoviesNotFound';
 import Preloader from '../Preloader/Preloader';
 
-function MoviesCardList({ movies, onSave, onDelete, emptyResult, preloader, addCards, handleMoreBtn }) {
+function MoviesCardList({ movies, onSave, isLiked, onDelete, emptyResult, preloader, addCards, handleMoreBtn }) {
 
 return (
 <section className="cards">
@@ -16,6 +16,7 @@ return (
             card={cardObj}
             onSave={onSave}
             onDelete={onDelete}
+            isLiked={isLiked}
         />
         ))}
 </ul>

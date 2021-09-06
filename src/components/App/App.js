@@ -153,24 +153,27 @@ useEffect(() => {
 }, []);
 
 
+
 function LogOut() {
   MainApi.quit();
   setLoggedIn(false);
   localStorage.removeItem('MOVIES_ARRAY');
   localStorage.removeItem('MOVIES_FIND');
+  localStorage.removeItem('SAVED_MOVIES');
+  localStorage.removeItem('SAVED_MOVIES_FIND');
+  localStorage.removeItem('FIND_NOTHING');
   localStorage.removeItem('loggedIn');
+  setMovies([]);
+  setSavedMovies([]);
+  setFindSavedMovies([]);
+  setFindNothing(false);
   setUserData({ email: '', name: '', })
   history.push('/');
 }
 
-useEffect(() => {
-  if (localStorage.getItem("MOVIES_ARRAY")){
-    setAllMovies(localStorage.getItem("MOVIES_ARRAY"))
-  }
-}, []);
-
 
 function getAllMovies() {
+  console.log('Вызов функции поиска')
   MoviesApi
     .getMovies()
     .then((res) => {
@@ -189,9 +192,10 @@ function getAllMovies() {
           id: item.id,
         };
       });
-      console.log('3')
+      console.log(moviesArray)
       setAllMovies(moviesArray)
       localStorage.setItem("MOVIES_ARRAY", JSON.stringify(moviesArray));
+      return moviesArray;
     })
     .catch(() => {
       localStorage.removeItem("MOVIES_ARRAY");
@@ -199,6 +203,22 @@ function getAllMovies() {
       setErrorText({text: "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."});
       setTimeout(()=>{setErrorText({text: ""})}, 4000);
     });
+}
+
+function getSavedMovies(){
+  MainApi
+  .getInitialCards()
+  .then((res) => {
+    console.log(res)
+    const newArr = res.map((item) => {
+      return { ...item, id: item.movieId };
+    });
+    setSavedMovies(newArr)
+    localStorage.setItem('SAVED_MOVIES', JSON.stringify(newArr));
+  }).catch(()=>{
+    localStorage.removeItem('SAVED_MOVIES');
+    setErrorText({text: "Проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."});
+  })
 }
 
 function requestConverter(request){
@@ -216,8 +236,27 @@ function requestConverter(request){
 }
 
 useEffect(() => {
-  setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
-}, []);
+  if (loggedIn){
+    if (localStorage.getItem('MOVIES_ARRAY')){
+      setAllMovies(JSON.parse(localStorage.getItem('MOVIES_ARRAY')));
+    }
+    else{
+      getAllMovies()
+    }
+    if (localStorage.getItem('SAVED_MOVIES')){
+      setSavedMovies(JSON.parse(localStorage.getItem('SAVED_MOVIES')));
+    }
+    else{
+      getSavedMovies()
+    }
+    if (localStorage.getItem('MOVIES_FIND')){
+      setMovies(JSON.parse(localStorage.getItem('MOVIES_FIND')));
+    }
+    if (localStorage.getItem('FIND_NOTHING')){
+      setFindNothing(true);
+    }
+  }
+}, [loggedIn]);
 
 function arrIterating(array, str){
   if (str !==null  && array !==undefined){
@@ -245,28 +284,17 @@ function Search(movie, request){
 
 
 function moviesSearch(request){
-  console.log(request)
-  if (Object.keys(request).length !== 0){
+  if (request.movie !== '' && request.movie !== undefined){
     setPreloader(true);
+    setMovies([]);
   const handleRequest = requestConverter(request);
-  if (!localStorage.getItem("MOVIES_ARRAY")){
-    getAllMovies()
-    console.log('22')
-    setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
-  }
-  else {
-    setAllMovies(JSON.parse(localStorage.getItem("MOVIES_ARRAY")));
-    console.log('33')
-  }
-  const newArr = Search(allMovies, handleRequest);
-    if (newArr.length!==0){
-        localStorage.setItem('MOVIES_FIND', JSON.stringify(newArr));
-        setMovies(newArr);
+  setTimeout(()=>{
+    if (Search(allMovies, handleRequest).length!==0){
+        localStorage.setItem('MOVIES_FIND', JSON.stringify(Search(allMovies, handleRequest)));
+        setMovies(Search(allMovies, handleRequest));
+        localStorage.removeItem('FIND_NOTHING')
         setFindNothing(false);
-        console.log('Вызов функции поиска')
-        console.log(newArr)
         console.log(movies)
-        console.log('MOVIES_FIND', JSON.stringify(newArr))
         console.log(JSON.parse(localStorage.getItem("MOVIES_FIND")))
         setPreloader(false);
       }
@@ -274,8 +302,11 @@ function moviesSearch(request){
         setMovies([]);
         localStorage.removeItem('MOVIES_FIND');
         setFindNothing(true);
+        localStorage.setItem('FIND_NOTHING', true)
+        console.log(localStorage.getItem('FIND_NOTHING'))
         setPreloader(false);
-      }
+      }    
+  }, 3000)
     } else {
       setErrorText({text: "Нужно ввести ключевое слово"});
       setTimeout(()=>{setErrorText({text: ""})}, 4000);
@@ -283,24 +314,43 @@ function moviesSearch(request){
       }
 }
 
-
-
 function savedMoviesSearch(request){
-  setPreloader(true);
-  const newArr = savedMovies.filter((item) => {
-    return item.nameRU.includes(request) || item.nameEN.includes(request) || item.director.includes(request) ||item.country.includes(request)
-  })
-  localStorage.setItem('savedMoviesFind', JSON.stringify(newArr));
-  setPreloader(false);
-  setFindSavedMovies(newArr);
+  if (request.movie !== '' && request.movie !== undefined){
+    setPreloader(true);
+    setFindSavedMovies([]);
+  const handleRequest = requestConverter(request);
+  setTimeout(()=>{
+    if (Search(savedMovies, handleRequest).length!==0){
+        localStorage.setItem('SAVED_MOVIES_FIND', JSON.stringify(Search(savedMovies, handleRequest)));
+        setFindSavedMovies(Search(savedMovies, handleRequest));
+        localStorage.removeItem('FIND_NOTHING')
+        setFindNothing(false);
+        setPreloader(false);
+      }
+      else {
+        setFindSavedMovies([]);
+        localStorage.removeItem('SAVED_MOVIES_FIND');
+        setFindNothing(true);
+        localStorage.setItem('FIND_NOTHING', true)
+        setPreloader(false);
+      }    
+  }, 3000)
+    } else {
+      setErrorText({text: "Нужно ввести ключевое слово"});
+      setTimeout(()=>{setErrorText({text: ""})}, 4000);
+      console.log('error')
+      }
 }
 
-
+useEffect(() => {
+  localStorage.setItem('SAVED_MOVIES', JSON.stringify(savedMovies))
+}, [savedMovies])
 
 function addMovie(movie) {
   MainApi.addCard(movie)
     .then((newCard) => {
-      setSavedMovies(savedMovies => ([newCard, ...savedMovies]));
+      setSavedMovies([...savedMovies, newCard]);
+      localStorage.setItem('SAVED_MOVIES', JSON.stringify(savedMovies))
     })
     .catch((error) => {
       console.log(`На сервере произошла ошибка: ${error}`);
@@ -308,15 +358,21 @@ function addMovie(movie) {
 }
 
 function deleteMovie(movie) {
-  MainApi.removeCard(movie._id)
+  const id = savedMovies.find((card) => card.id === movie.id);
+  //console.log(movie)
+  MainApi.removeCard(id)
     .then(() => {
-      setSavedMovies(savedMovies => savedMovies.filter((state) => state._id !== movie._id));
+      setSavedMovies(savedMovies => savedMovies.filter((state) => state._id !== id));
     })
     .catch((error) => {
       console.log(`На сервере произошла ошибка: ${error}`);
     });
 }
 
+function isLiked(movie) {
+  console.log(savedMovies.some((item) => item.id === movie.id))
+  return savedMovies.some((item) => item.id === movie.id);
+}
 
 function setCountCard(string) {
   let cardsArr = 0;
@@ -370,13 +426,14 @@ function handleMoreButton() {
                 checkbox={checkbox}
                 movies={movies}
                 onSubmit={moviesSearch}
-                onSave={addMovie}
-                onDelete={deleteMovie}
+                onSave={(movie) => { addMovie(movie) }}
+                onDelete={(movie) => { deleteMovie(movie) }}
                 preloader={preloader}
                 error={errorText}
                 emptyResult={findNothing}
                 addCards={addCards}
                 handleMoreBtn={handleMoreButton}
+                isLiked={isLiked}
                  />
                 <Footer />
               </ProtectedRoute>
@@ -390,12 +447,13 @@ function handleMoreButton() {
                 <SavedMovies 
                 handleCheckbox={handleCheckbox}
                 checkbox={checkbox}
-                movies={savedMovies}
+                movies={findSavedMovies === 0 ? findSavedMovies : savedMovies}
                 onSubmit={savedMoviesSearch}
-                onDelete={deleteMovie}
+                onDelete={(movie) => {deleteMovie(movie)}}
                 preloader={preloader}
                 error={errorText}
                 emptyResult={findNothing}
+                isLiked={isLiked}
                 />
                 <Footer />
               </ProtectedRoute>

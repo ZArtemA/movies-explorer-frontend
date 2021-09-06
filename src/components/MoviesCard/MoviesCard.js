@@ -1,15 +1,25 @@
 import './MoviesCard.css';
 import { useLocation } from "react-router-dom";
 
-function MoviesCard({ card, onSave, onDelete }) {
+function MoviesCard({ card, onSave, onDelete, isLiked }) {
 
     function TimeMath(count){
         const hours = Math.floor(count / 60);
         const minutes = Math.floor(count - (hours * 60));
-        return `${hours > 0 ? (hours + ' ч' + minutes + ' мин') : (minutes + ' мин')}`;
+        return `${hours > 0 ? (hours + ' ч : ' + minutes + ' мин') : (minutes + ' мин')}`;
     }
 
     let pathname = useLocation().pathname;
+
+
+    function handleClick(evt) {
+        evt.preventDefault();
+        if (isLiked(card)){
+            onDelete(card)
+            console.log(card)
+        } onSave(card);
+        console.log(isLiked(card))
+      }
 
     return (
         <li className="movie-card">
@@ -19,9 +29,9 @@ function MoviesCard({ card, onSave, onDelete }) {
                 <p className="movie-card__duration">{TimeMath(card.duration)}</p>
             </div>
                     <button 
-                    className={pathname === "/movies" ? `movie-card__btn-like ${card.isLiked ? "movie-card__btn-like_active" : ""}` : "movie-card__btn-delete"}
+                    className={pathname === "/movies" ? `movie-card__btn-like ${isLiked(card) ? "movie-card__btn-like_active" : ""}` : "movie-card__btn-delete"}
                     type="button"
-                    onClick={!card.isLiked ? onSave : onDelete}
+                    onClick={handleClick}
                     >
                     </button>
                     </div>

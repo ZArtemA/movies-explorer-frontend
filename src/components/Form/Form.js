@@ -1,4 +1,5 @@
 import './Form.css'
+import { useLocation } from 'react-router-dom';
 
 function Form(props) {
     return (
@@ -9,7 +10,7 @@ function Form(props) {
         onSubmit={props.onSubmit}>
             {props.children}
             <div className="form__button">
-            <span className="form__success-message">{props.successText.text}</span>
+            { useLocation() === '/profile' && <span className="form__success-message">{props.successText.text}</span>}
             <span className="form__error">{props.errorText.text}</span>
             <button className={`form__btn-save ${!props.isValid ? "form__btn-save_inactive" : ''}`}
                 type="submit"

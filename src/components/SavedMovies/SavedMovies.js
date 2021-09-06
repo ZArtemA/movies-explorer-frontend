@@ -2,7 +2,7 @@ import './SavedMovies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function SavedMovies({ handleCheckbox, checkbox, movies, onSubmit, onDelete, preloader, error, emptyResult  }) {
+function SavedMovies({ handleCheckbox, isLiked, checkbox, movies, onSubmit, onDelete, preloader, error, emptyResult  }) {
 return (
     <section className="saved-movies">
       <div className="movies__container">
@@ -17,6 +17,7 @@ return (
         onClick={onDelete}
         emptyResult={emptyResult}
         preloader={preloader}
+        isLiked={isLiked}
           />
       </div>
     </section>
