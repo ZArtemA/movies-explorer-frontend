@@ -13,8 +13,8 @@ return (
         error={error}
          />
         <MoviesCardList
-        movies={movies}
-        onClick={onDelete}
+        movies={checkbox ? movies : movies.filter(movie => movie.duration >= 40)}
+        onDelete={onDelete}
         emptyResult={emptyResult}
         preloader={preloader}
         isLiked={isLiked}

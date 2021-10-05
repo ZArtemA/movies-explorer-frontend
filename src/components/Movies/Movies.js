@@ -13,7 +13,7 @@ return (
         error={error}
          />
         <MoviesCardList
-        movies={movies}
+        movies={checkbox ? movies : movies.filter(movie => movie.duration >= 40)}
         onSave={onSave}
         onDelete={onDelete}
         emptyResult={emptyResult}

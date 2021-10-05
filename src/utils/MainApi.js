@@ -123,11 +123,13 @@ patchPersonInfo(name, email) {
             })
         })
             .then(response => {
+              console.log(response)
                 return this._getResJson(response);
             })
     }
 
     removeCard(id) {
+      console.log(id)
         return fetch(`${this._url}/movies/${id}`, {
             method: 'DELETE',
             credentials: 'include',
