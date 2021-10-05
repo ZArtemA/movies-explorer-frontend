@@ -1,9 +1,17 @@
+import { React, useState } from 'react';
 import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function Movies({ handleCheckbox, isLiked, checkbox, movies, onSave, onDelete, onSubmit, preloader, error, emptyResult, addCards, handleMoreBtn }) {
-return (
+function Movies({ isLiked, movies, onSave, onDelete, onSubmit, preloader, error, emptyResult, addCards, handleMoreBtn }) {
+
+  const [checkbox, setCheckbox] = useState(false);
+
+  function handleCheckbox() {
+    setCheckbox(checkbox);
+  }
+
+  return (
     <section className="movies">
       <div className="movies__container">
         <SearchForm
@@ -13,7 +21,7 @@ return (
         error={error}
          />
         <MoviesCardList
-        movies={checkbox ? movies : movies.filter(movie => movie.duration >= 40)}
+        movies={checkbox ? movies : movies.filter(movie => movie.duration <= 40)}
         onSave={onSave}
         onDelete={onDelete}
         emptyResult={emptyResult}

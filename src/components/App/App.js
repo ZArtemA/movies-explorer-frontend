@@ -21,7 +21,6 @@ function App() {
   const [userData, setUserData] = useState({ email: '', name: '' });//Данные юзера
 
 
-const [checkbox, setCheckbox] = useState(false);//Кнопка чекбокса короткометражек
 const [headerMenu, setHeaderMenu] = useState(false);//Открывание меню хедера
 const [editForm, setEditForm] = useState(false);//Открыть форму изменения данных
 
@@ -36,10 +35,6 @@ const [findNoMovies, setFindNoMovies] = useState(false);
 const [findNoSavedMovies, setFindNoSavedMovies] = useState(false);
 const [addCards, setAddCards] = useState(setCountCard('step'));
 const history = useHistory();
-
-function handleCheckbox() {
-  setCheckbox(checkbox);
-}
 
 function handleNavMenuClick() {
   setHeaderMenu(true)
@@ -363,7 +358,7 @@ function deleteMovie(movie) {
   console.log(id)
   MainApi.removeCard(id)
     .then(() => {
-      setSavedMovies(savedMovies.filter((state) => state.id !== id));
+      setSavedMovies(savedMovies => savedMovies.filter((state) => state.id !== id));
       console.log(savedMovies)
     })
     .catch((error) => {
@@ -427,8 +422,6 @@ function handleMoreButton() {
             onMenuBtnClick={() =>{handleNavMenuClick()}}
             />
                 <Movies
-                handleCheckbox={handleCheckbox}
-                checkbox={checkbox}
                 movies={movies}
                 onSubmit={moviesSearch}
                 onSave={(movie) => { addMovie(movie) }}
@@ -450,8 +443,6 @@ function handleMoreButton() {
             onMenuBtnClick={() =>{handleNavMenuClick()}}
             />
                 <SavedMovies 
-                handleCheckbox={handleCheckbox}
-                checkbox={checkbox}
                 movies={findSavedMovies.length !== 0 ? findSavedMovies : savedMovies}
                 onSubmit={savedMoviesSearch}
                 onDelete={(movie) => {deleteMovie(movie)}}
