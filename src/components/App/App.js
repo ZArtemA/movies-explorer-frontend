@@ -156,6 +156,7 @@ function LogOut() {
   localStorage.removeItem('SAVED_MOVIES');
   localStorage.removeItem('SAVED_MOVIES_FIND');
   localStorage.removeItem('FIND_NOTHING');
+  localStorage.removeItem('NO_FIND_MOVIES_COLLECTION');
   localStorage.removeItem('loggedIn');
   setMovies([]);
   setSavedMovies([]);
@@ -202,11 +203,13 @@ function getSavedMovies(){
   MainApi
   .getInitialCards()
   .then((res) => {
-    const newArr = res.map((item) => {
+    const newArr = (res.map((item) => {
       return { ...item, movieId: item.id };
-    });
+    })).filter(movie => movie.owner === userData._id); //предупреждение из-за этого
     setSavedMovies(newArr)
     localStorage.setItem('SAVED_MOVIES', JSON.stringify(newArr));
+    console.log(newArr);
+    console.log(savedMovies);
     return newArr;
   }).catch(()=>{
     localStorage.removeItem('SAVED_MOVIES');
@@ -359,6 +362,7 @@ function deleteMovie(movie) {
   MainApi.removeCard(id)
     .then(() => {
       setSavedMovies(savedMovies => savedMovies.filter((state) => state.id !== id));
+      localStorage.setItem('SAVED_MOVIES', JSON.stringify(savedMovies))
       console.log(savedMovies)
     })
     .catch((error) => {
@@ -394,6 +398,8 @@ function setCountCard(string) {
   }
 }
 
+console.log(findSavedMovies)
+console.log(savedMovies)
 
 function handleMoreButton() {
   setAddCards(addCards + setCountCard('plus'));

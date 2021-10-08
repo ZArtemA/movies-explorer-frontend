@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -6,9 +6,14 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 function Movies({ isLiked, movies, onSave, onDelete, onSubmit, preloader, error, emptyResult, addCards, handleMoreBtn }) {
 
   const [checkbox, setCheckbox] = useState(false);
+  const [resultMovies, setResultMovies] = useState([]);
+
+  useEffect(() => {
+    checkbox ? setResultMovies(movies.filter(movie => movie.duration <= 40)) : setResultMovies(movies)
+  }, [checkbox, movies]);
 
   function handleCheckbox() {
-    setCheckbox(checkbox);
+    setCheckbox(!checkbox);
   }
 
   return (
@@ -21,7 +26,7 @@ function Movies({ isLiked, movies, onSave, onDelete, onSubmit, preloader, error,
         error={error}
          />
         <MoviesCardList
-        movies={checkbox ? movies : movies.filter(movie => movie.duration <= 40)}
+        movies={resultMovies}
         onSave={onSave}
         onDelete={onDelete}
         emptyResult={emptyResult}

@@ -6,7 +6,6 @@ import NotFound from './MoviesNotFound/MoviesNotFound';
 import Preloader from '../Preloader/Preloader';
 
 function MoviesCardList({ movies, onSave, isLiked, onDelete, emptyResult, preloader, addCards, handleMoreBtn }) {
-
 return (
 <section className="cards">
 <ul className="cards__gallery">
