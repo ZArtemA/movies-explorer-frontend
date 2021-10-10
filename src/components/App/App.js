@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -77,13 +77,10 @@ function handleLogin({ email, password }) {
   MainApi.authorize(email, password)
     .then((res) => {
       if (res) {
-        setLoggedIn({
-          loggedIn: true
-        });
         localStorage.setItem('loggedIn', 'true');
-        history.push("/movies");
+        tokenCheck();
+         history.push("/movies");
       }
-      tokenCheck();
     })
     .catch(error => {
       if (error === 401) {
@@ -122,10 +119,10 @@ function tokenCheck() {
   if (localStorage.getItem('loggedIn')) {
     MainApi.checkToken().then((res) => {
       if (res) {
+        setUserData({ email: res.email, name: res.name, id: res._id });
         setLoggedIn({
           loggedIn: true,
         });
-        setUserData({ email: res.email, name: res.name, id: res._id });
         localStorage.setItem('loggedIn', 'true');
       };
     })
@@ -199,12 +196,11 @@ function getAllMovies() {
     });
 }
 
-function getSavedMovies(){
+function getSavedMovies(userData){
   MainApi
   .getInitialCards()
   .then((res) => {
-    const newArr = res;
-    console.log(res)
+    const newArr = res.filter(movie => movie.owner === userData.id)
     setSavedMovies(newArr);
     localStorage.setItem('SAVED_MOVIES', JSON.stringify(newArr));
     return newArr;
@@ -213,8 +209,6 @@ function getSavedMovies(){
     setErrorText({text: "Проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."});
   })
 }
-
-//Сделать выборку фильмов для овнера через filter(movie => movie.owner === userData.id))
 
 function requestConverter(request){
   let result;
@@ -242,7 +236,7 @@ useEffect(() => {
       setSavedMovies(JSON.parse(localStorage.getItem('SAVED_MOVIES')));
     }
     else{
-      getSavedMovies()
+      getSavedMovies(userData)
     }
     if (localStorage.getItem('MOVIES_FIND')){
       setMovies(JSON.parse(localStorage.getItem('MOVIES_FIND')));
@@ -257,7 +251,7 @@ useEffect(() => {
       setFindNoSavedMovies(true);
     }
   }
-}, [loggedIn]);
+}, [loggedIn, userData]);
 
 function arrIterating(array, str){
   if (str !==null  && array !==undefined){
@@ -322,13 +316,10 @@ function savedMoviesSearch(request){
   setTimeout(()=>{
     if (Search(savedMovies, handleRequest).length!==0){
         localStorage.setItem('SAVED_MOVIES_FIND', JSON.stringify(Search(savedMovies, handleRequest)));
-        setFindSavedMovies(Search(savedMovies, handleRequest));
+        setFindSavedMovies(Search(savedMovies.filter(movie => (movie.owner === userData.id)), handleRequest));
         localStorage.removeItem('NO_FIND_MOVIES_COLLECTION')
         setFindNoSavedMovies(false);
         setPreloader(false);
-
-        console.log(findSavedMovies)
-        console.log(findSavedMovies.length)
       }
       else {
         setFindSavedMovies([]);
@@ -349,9 +340,9 @@ function addMovie(movie) {
   console.log(movie)
   MainApi.addCard(movie)
     .then((newCard) => {
-      setSavedMovies([...savedMovies, newCard]);
+      setSavedMovies(savedMovies => ([...savedMovies, newCard]));
       console.log(savedMovies)
-      localStorage.setItem('SAVED_MOVIES', JSON.stringify(savedMovies))
+      console.log(newCard)
     })
     .catch((error) => {
       console.log(`На сервере произошла ошибка: ${error}`);
@@ -364,14 +355,20 @@ function deleteMovie(movie) {
   console.log(id)
   MainApi.removeCard(id)
     .then(() => {
-      setSavedMovies(savedMovies => savedMovies.filter((state) => state.id !== id));
-      localStorage.setItem('SAVED_MOVIES', JSON.stringify(savedMovies))
+      setSavedMovies(savedMovies.filter(state => state._id !== id));
       console.log(savedMovies)
+      console.log(savedMovies.filter(state => state._id !== id))
     })
     .catch((error) => {
       console.log(`На сервере произошла ошибка: ${error}`);
     });
 }
+
+useEffect(() => {
+  console.log('3')
+  console.log(savedMovies)
+ loggedIn && localStorage.setItem('SAVED_MOVIES', JSON.stringify(savedMovies))
+}, [loggedIn, savedMovies]);
 
 function isLiked(movie) {
   return savedMovies.some((item) => item.movieId === movie.movieId && item.owner === userData.id);
@@ -474,16 +471,18 @@ function handleMoreButton() {
                 />
               </ProtectedRoute>
               <Route path="/signup">
+              {loggedIn ? <Redirect to="/" /> :
                 <Register
                 handleRegister={handleRegister}
                 error={errorText}
-                />
+                />}
               </Route>
               <Route path="/signin">
+              {loggedIn ? <Redirect to="/" /> :
                 <Login
                 handleLogin={handleLogin}
                 error={errorText}
-                />
+                />}
               </Route>
               <Route path="*">
                 <PageNotFound />
