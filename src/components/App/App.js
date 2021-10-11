@@ -198,6 +198,8 @@ function getSavedMovies(userData){
     const newArr = res.filter(movie => movie.owner === userData.id)
     setSavedMovies(newArr);
     localStorage.setItem('SAVED_MOVIES', JSON.stringify(newArr));
+    setFindSavedMovies(newArr);
+    localStorage.setItem('SAVED_MOVIES_FIND', JSON.stringify(newArr));
     return newArr;
   }).catch(()=>{
     localStorage.removeItem('SAVED_MOVIES');
@@ -400,7 +402,7 @@ function isLiked(movie) {
             onMenuBtnClick={() =>{handleNavMenuClick()}}
             />
                 <SavedMovies 
-                movies={findSavedMovies.length !== 0 ? findSavedMovies : savedMovies}
+                movies={findSavedMovies}
                 onSubmit={savedMoviesSearch}
                 onDelete={(movie) => {deleteMovie(movie)}}
                 preloader={preloader}
