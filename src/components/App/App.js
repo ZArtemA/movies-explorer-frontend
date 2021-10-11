@@ -33,7 +33,6 @@ const [errorText, setErrorText] = useState({text: ""});
 const [successText, setSuccessText] = useState({text: ""});
 const [findNoMovies, setFindNoMovies] = useState(false);
 const [findNoSavedMovies, setFindNoSavedMovies] = useState(false);
-const [addCards, setAddCards] = useState(setCountCard('step'));
 const history = useHistory();
 
 function handleNavMenuClick() {
@@ -48,10 +47,6 @@ function closeAll() {
   setEditForm(false)
   setErrorText({text: ""})
 }
-
-useEffect(() => {
-  window.addEventListener("resize", setCountCard);
-}, []);
 
 function handleRegister(email, password, name) {
   MainApi.register(email, password, name)
@@ -303,7 +298,6 @@ function moviesSearch(request){
     } else {
       setErrorText({text: "Нужно ввести ключевое слово"});
       setTimeout(()=>{setErrorText({text: ""})}, 4000);
-      console.log('error')
       }
 }
 
@@ -332,17 +326,13 @@ function savedMoviesSearch(request){
     } else {
       setErrorText({text: "Нужно ввести ключевое слово"});
       setTimeout(()=>{setErrorText({text: ""})}, 4000);
-      console.log('error')
       }
 }
 
 function addMovie(movie) {
-  console.log(movie)
   MainApi.addCard(movie)
     .then((newCard) => {
       setSavedMovies(savedMovies => ([...savedMovies, newCard]));
-      console.log(savedMovies)
-      console.log(newCard)
     })
     .catch((error) => {
       console.log(`На сервере произошла ошибка: ${error}`);
@@ -350,14 +340,10 @@ function addMovie(movie) {
 }
 
 function deleteMovie(movie) {
-  console.log(movie)
   const id = savedMovies.find((card) => card.movieId === movie.movieId)._id;
-  console.log(id)
   MainApi.removeCard(id)
     .then(() => {
       setSavedMovies(savedMovies.filter(state => state._id !== id));
-      console.log(savedMovies)
-      console.log(savedMovies.filter(state => state._id !== id))
     })
     .catch((error) => {
       console.log(`На сервере произошла ошибка: ${error}`);
@@ -365,37 +351,11 @@ function deleteMovie(movie) {
 }
 
 useEffect(() => {
-  console.log('3')
-  console.log(savedMovies)
  loggedIn && localStorage.setItem('SAVED_MOVIES', JSON.stringify(savedMovies))
 }, [loggedIn, savedMovies]);
 
 function isLiked(movie) {
   return savedMovies.some((item) => item.movieId === movie.movieId && item.owner === userData.id);
-}
-
-function setCountCard(string) {
-  let cardsArr = 0;
-  let addCards = 0;
-  const pageWidth = document.documentElement.scrollWidth;
-
-  if (pageWidth > 520) {
-    cardsArr = 7;
-    addCards = 7;
-  }
-  else {
-    cardsArr = 5;
-    addCards = 2;
-  }
-  if (string === 'step') {
-    return cardsArr
-  } else {
-    return addCards
-  }
-}
-
-function handleMoreButton() {
-  setAddCards(addCards + setCountCard('plus'));
 }
 
     return (
@@ -428,8 +388,6 @@ function handleMoreButton() {
                 preloader={preloader}
                 error={errorText}
                 emptyResult={findNoMovies}
-                addCards={addCards}
-                handleMoreBtn={handleMoreButton}
                 isLiked={isLiked}
                  />
                 <Footer />

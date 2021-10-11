@@ -1,6 +1,6 @@
 import './More.css';
 
-function More(handleMoreBtn) {
+function More({handleMoreBtn}) {
 
     return (
         <div className="more">
