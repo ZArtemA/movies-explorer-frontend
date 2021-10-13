@@ -340,7 +340,10 @@ function addMovie(movie) {
 }
 
 function deleteMovie(movie) {
-  const id = savedMovies.find((card) => card.movieId === movie.movieId)._id;
+  const id = savedMovies.find((card) => (card.movieId === movie.movieId && card.owner === userData.id))._id;
+  console.log(id)
+  console.log(movie.movieId)
+  console.log(userData.id)
   MainApi.removeCard(id)
     .then(() => {
       setSavedMovies(savedMovies.filter(state => state._id !== id));

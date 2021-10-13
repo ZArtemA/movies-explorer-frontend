@@ -127,6 +127,7 @@ patchPersonInfo(name, email) {
     }
 
     removeCard(id) {
+      console.log(id)
         return fetch(`${this._url}/movies/${id}`, {
             method: 'DELETE',
             credentials: 'include',

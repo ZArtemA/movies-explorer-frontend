@@ -18,8 +18,8 @@ function Profile(props) {
         props.onSave({ email: email, name: name });
         formValidation.resetForm();
         document.querySelectorAll('input').disabled=false;
-        console.log({email, name})
-        console.log(document.querySelectorAll('input').disabled)
+        //console.log({email, name})
+        //console.log(document.querySelectorAll('input').disabled)
     }
 
     function handleCancel() {

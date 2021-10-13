@@ -23,6 +23,7 @@ function MoviesCard({ card, onSave, onDelete, isLiked }) {
       function handleCrossClick(evt) {
         evt.preventDefault();
         onDelete(card)
+        console.log(card)
       }
 
     return (
