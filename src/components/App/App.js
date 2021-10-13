@@ -198,8 +198,6 @@ function getSavedMovies(userData){
     const newArr = res.filter(movie => movie.owner === userData.id)
     setSavedMovies(newArr);
     localStorage.setItem('SAVED_MOVIES', JSON.stringify(newArr));
-    setFindSavedMovies(newArr);
-    localStorage.setItem('SAVED_MOVIES_FIND', JSON.stringify(newArr));
     return newArr;
   }).catch(()=>{
     localStorage.removeItem('SAVED_MOVIES');
@@ -346,15 +344,24 @@ function deleteMovie(movie) {
   MainApi.removeCard(id)
     .then(() => {
       setSavedMovies(savedMovies.filter(state => state._id !== id));
+      setFindSavedMovies(findSavedMovies.filter(state => state._id !== id));
     })
     .catch((error) => {
       console.log(`На сервере произошла ошибка: ${error}`);
     });
 }
 
+//Не удаляет из базы данных по кнопке лайка
+//Не блокирует поля формы
+//НЕ сравнивает с текущим значением профиля
+
 useEffect(() => {
- loggedIn && localStorage.setItem('SAVED_MOVIES', JSON.stringify(savedMovies))
+ loggedIn && localStorage.setItem('SAVED_MOVIES', JSON.stringify(savedMovies)) 
 }, [loggedIn, savedMovies]);
+
+useEffect(() => {
+  loggedIn && localStorage.setItem('SAVED_MOVIES_FIND', JSON.stringify(findSavedMovies))
+ }, [loggedIn, findSavedMovies]);
 
 function isLiked(movie) {
   return savedMovies.some((item) => item.movieId === movie.movieId && item.owner === userData.id);
@@ -386,7 +393,7 @@ function isLiked(movie) {
                 movies={movies}
                 onSubmit={moviesSearch}
                 onSave={(movie) => { addMovie(movie) }}
-                onDelete={(movie) => { deleteMovie(movie) }}
+                onDelete={(movie) => {deleteMovie(movie)}}
                 preloader={preloader}
                 error={errorText}
                 emptyResult={findNoMovies}
@@ -402,7 +409,7 @@ function isLiked(movie) {
             onMenuBtnClick={() =>{handleNavMenuClick()}}
             />
                 <SavedMovies 
-                movies={findSavedMovies}
+                movies={findSavedMovies.length === 0 && !preloader && !findNoSavedMovies ? savedMovies : findSavedMovies}
                 onSubmit={savedMoviesSearch}
                 onDelete={(movie) => {deleteMovie(movie)}}
                 preloader={preloader}

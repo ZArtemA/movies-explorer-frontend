@@ -10,12 +10,16 @@ function Profile(props) {
     const {email, name} = formValidation.data;
 
     function handleSubmit(e) {
+        document.querySelectorAll('input').disabled=true;
         e.preventDefault();
         if (!email || !name) {
             return;
         }
         props.onSave({ email: email, name: name });
         formValidation.resetForm();
+        document.querySelectorAll('input').disabled=false;
+        console.log({email, name})
+        console.log(document.querySelectorAll('input').disabled)
     }
 
     function handleCancel() {

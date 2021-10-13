@@ -136,6 +136,7 @@ patchPersonInfo(name, email) {
         })
             .then(response => {
                 if (response.ok) {
+                  console.log(response)
                     return Promise.resolve("done");
                 }
                 return Promise.reject(new Error(`Ошибка: ${response.status}`));

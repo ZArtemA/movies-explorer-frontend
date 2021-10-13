@@ -16,8 +16,6 @@ function SavedMovies({ isLiked, movies, onSubmit, onDelete, preloader, error, em
     setCheckbox(!checkbox);
   }
 
-  console.log(movies)
-
   return (
     <section className="saved-movies">
       <div className="movies__container">
