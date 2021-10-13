@@ -11,5 +11,5 @@
 Посмотреть сайт можно по адресу:
  https://artem-diplomaproject.nomoredomains.club/
 
- Бэкенд:
- https://artem-diplomaproject.nomoredomains.club
+Бэкенд:
+https://api.artem-diplomaproject.nomoredomains.club/
