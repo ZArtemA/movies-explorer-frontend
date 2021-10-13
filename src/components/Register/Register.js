@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Form from '../Form/Form';
 import Logo from '../Logo/Logo';
@@ -10,17 +10,19 @@ import { PAGE_LOGIN } from '../../utils/constants';
 function Register({handleRegister, error}) {
 
     const formValidation = FormValidation();
-
+    const [formSavedProcess, setFormSavedProcess] = useState(false);
     const {email, name, password} = formValidation.data;
 
 
     function handleSubmit(e) {
+        setFormSavedProcess(true)
         e.preventDefault();
         if (!email || !name || !password) {
             return;
         }
         handleRegister({ email: email, name: name, password: password });
         formValidation.resetForm();
+        setTimeout(()=>{setFormSavedProcess(false)}, 3000);
     }
 
   
@@ -48,6 +50,7 @@ function Register({handleRegister, error}) {
                     value={name || ''}
                     pattern="[A-Za-zА-Яа-яЁё0-9\s-]{2,20}"
                     required
+                    disabled={formSavedProcess ? true : false}
                     />
                 <span className="form__input-error">{formValidation.errors.name}</span>
                 <p className="form__input-name">E-mail</p>
@@ -62,6 +65,7 @@ function Register({handleRegister, error}) {
                     value={email || ''}
                     pattern="^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$"
                     required
+                    disabled={formSavedProcess ? true : false}
                         />
                 <span className="form__input-error">{formValidation.errors.email}</span>
                 <p className="form__input-name">Пароль</p>
@@ -76,6 +80,7 @@ function Register({handleRegister, error}) {
                 autoComplete="off"
                 value={password || ''}
                 required
+                disabled={formSavedProcess ? true : false}
                  />
                 <span className="form__input-error">{formValidation.errors.password}</span>
     </Form>

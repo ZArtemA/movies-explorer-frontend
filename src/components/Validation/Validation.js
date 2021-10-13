@@ -36,11 +36,9 @@ export default function FormValidation() {
     const name = target.name;
     const value = target.value;
     setData({...data, [name]: value});
-    setInputValid({...inputValid, [name]: target.checkValidity() && target.value !== data });
+    setInputValid({...inputValid, [name]: target.checkValidity()});
     setErrors({...errors, [name]: errorInputText(name, value)});
-    setIsValid(target.closest('form').checkValidity());
-    //console.log(target)
-    //console.log(data)
+    setIsValid(target.closest('form').checkValidity() && target.value !== target.placeholder);
   };
 
 

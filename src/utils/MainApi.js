@@ -82,7 +82,6 @@ patchPersonInfo(name, email) {
             email: email
         })
     }).then(response => {
-      console.log(response);
         return this._getResJson(response);
     });
 }
@@ -127,7 +126,6 @@ patchPersonInfo(name, email) {
     }
 
     removeCard(id) {
-      console.log(id)
         return fetch(`${this._url}/movies/${id}`, {
             method: 'DELETE',
             credentials: 'include',
@@ -137,7 +135,6 @@ patchPersonInfo(name, email) {
         })
             .then(response => {
                 if (response.ok) {
-                  console.log(response)
                     return Promise.resolve("done");
                 }
                 return Promise.reject(new Error(`Ошибка: ${response.status}`));

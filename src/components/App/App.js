@@ -341,9 +341,6 @@ function addMovie(movie) {
 
 function deleteMovie(movie) {
   const id = savedMovies.find((card) => (card.movieId === movie.movieId && card.owner === userData.id))._id;
-  console.log(id)
-  console.log(movie.movieId)
-  console.log(userData.id)
   MainApi.removeCard(id)
     .then(() => {
       setSavedMovies(savedMovies.filter(state => state._id !== id));
@@ -353,10 +350,6 @@ function deleteMovie(movie) {
       console.log(`На сервере произошла ошибка: ${error}`);
     });
 }
-
-//Не удаляет из базы данных по кнопке лайка
-//Не блокирует поля формы
-//НЕ сравнивает с текущим значением профиля
 
 useEffect(() => {
  loggedIn && localStorage.setItem('SAVED_MOVIES', JSON.stringify(savedMovies)) 

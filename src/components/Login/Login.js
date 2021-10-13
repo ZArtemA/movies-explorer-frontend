@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Form from '../Form/Form';
 import Logo from '../Logo/Logo';
@@ -9,18 +9,20 @@ import FormValidation from '../Validation/Validation';
 function Login({handleLogin, error}) {
 
     const formValidation = FormValidation();
-
+    const [formSavedProcess, setFormSavedProcess] = useState(false);
     const {email, password} = formValidation.data;
 
 
 
     function handleSubmit(e) {
+        setFormSavedProcess(true)
         e.preventDefault();
         if (!email || !password) {
             return;
         }
         handleLogin({ email: email, password: password });
         formValidation.resetForm();
+        setTimeout(()=>{setFormSavedProcess(false)}, 3000);
     }
 
 
@@ -48,6 +50,7 @@ function Login({handleLogin, error}) {
                         value={email || ''}
                         pattern="^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$"
                         required
+                        disabled={formSavedProcess ? true : false}
                          />
                     <span className="form__input-error">{formValidation.errors.email}</span>
                     <p className="form__input-name">Пароль</p>
@@ -62,6 +65,7 @@ function Login({handleLogin, error}) {
                             autoComplete="off"
                             value={password || ''}
                             required
+                            disabled={formSavedProcess ? true : false}
                          />
                     <span className="form__input-error">{formValidation.errors.password}</span>
                     </Form>

@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState } from 'react';
 import './Profile.css';
 import Form from '../Form/Form';
 import FormValidation from '../Validation/Validation';
@@ -6,20 +6,18 @@ import FormValidation from '../Validation/Validation';
 function Profile(props) {
 
     const formValidation = FormValidation();
-
+    const [formSavedProcess, setFormSavedProcess] = useState(false);
     const {email, name} = formValidation.data;
 
     function handleSubmit(e) {
-        document.querySelectorAll('input').disabled=true;
+        setFormSavedProcess(true)
         e.preventDefault();
         if (!email || !name) {
             return;
         }
         props.onSave({ email: email, name: name });
         formValidation.resetForm();
-        document.querySelectorAll('input').disabled=false;
-        //console.log({email, name})
-        //console.log(document.querySelectorAll('input').disabled)
+        setTimeout(()=>{setFormSavedProcess(false)}, 3000);
     }
 
     function handleCancel() {
@@ -59,6 +57,7 @@ function Profile(props) {
                         value={name || ''}
                         pattern="[A-Za-zА-Яа-яЁё0-9\s-]{2,30}"
                         required
+                        disabled={formSavedProcess ? true : false}
                         />
                         <span name="name" className="form__input-error">{formValidation.errors.name}</span>
                         <p className="form__input-name">Почта</p>
@@ -73,6 +72,7 @@ function Profile(props) {
                         value={email || ''}
                         pattern="^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$"
                         required
+                        disabled={formSavedProcess ? true : false}
                          />
                         <span name="email" className="form__input-error">{formValidation.errors.email}</span>
                         <p className="profile__btn-cancel" onClick={handleCancel}>Отмена</p>

@@ -40,7 +40,6 @@ function MoviesCardList({ movies, onSave, isLiked, onDelete, emptyResult, preloa
     }
   //Определяем сколько показать карточек сначале и плюсом
     function handleMoreButton() {
-        console.log('check1')
         setCountCards(countCards + defineCountCard('more'));
     }//Клик по кнопке
 
