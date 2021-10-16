@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import account_icon from "../../images/account-img.svg";
 import menu_icon from "../../images/menu-btn.svg";
 import closeButton from '../../images/close-btn.svg';
@@ -6,9 +6,9 @@ import { PAGE_MAIN, PAGE_MOVIES, PAGE_MOVIES_COLLECTION, PAGE_PROFILE, PAGE_LOGI
 
 import './Navigation.css';
 
-function Navigation({onClose, isOpen, onMenuBtnClick}) {
+function Navigation({onClose, isOpen, onMenuBtnClick, loggedIn}) {
 
-    if (useLocation().pathname !== '/') {
+    if (loggedIn) {
     return (
         <>
         <div className="navigation">
@@ -48,7 +48,7 @@ function Navigation({onClose, isOpen, onMenuBtnClick}) {
             else {
     return (
         <nav className="nav__menu_main">
-            <NavLink to={PAGE_REGISTRATION} className="nav__link">Регистрация</NavLink>
+            <NavLink to={PAGE_REGISTRATION} className="nav__link nav__link_white">Регистрация</NavLink>
             <NavLink to={PAGE_LOGIN} className="nav__link nav__link_signin">Войти</NavLink>
         </nav>
     )

@@ -15,11 +15,6 @@
     cursor: pointer;
 }
 
-.app button:hover{
-    opacity: 70%;
-    cursor: pointer;
-}
-
 input{
     outline: none;
 }

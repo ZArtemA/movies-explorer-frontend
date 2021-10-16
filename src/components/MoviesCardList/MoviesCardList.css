@@ -1,5 +1,6 @@
 .cards{
   margin: 5.47% 5.47% 10px;
+  min-height: 150px;
 }
 
 .cards__gallery{
@@ -27,5 +28,6 @@
 
   .cards{
     margin: 40px 3.125% 6.25%;
+    min-height: 100px;
   }
 }
