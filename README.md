@@ -14,6 +14,14 @@
 
 Маршруты /movies, /profile и /saved-movies защищены React-router-dom и доступны только авторизованным пользователям.
 
+## Для работы необходимо установить 
+
+* react: V17.0.2
+* react-dom: V17.0.2
+* react-router-dom: V5.2.0
+* react-scripts: V4.0.3
+* web-vitals: V1.1.2
+
 ## Инструкция по запуску проекта:
 
 __Установка зависимостей:__ ```npm install```
